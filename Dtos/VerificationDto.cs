@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace FontaineVerificationProject.Models
+namespace FontaineVerificationProject.Dtos
 {
-    public class Verification
+    public class VerificationDto
     {
-        public int VerificationID { get; set; }
+        public int VerificationNo { get; set; }
         public int ChassisNo { get; set; }
         public string V1UserName { get; set; }
         public DateTime V1DateTime { get; set; }
