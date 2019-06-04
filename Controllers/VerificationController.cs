@@ -66,7 +66,7 @@ namespace FontaineVerificationProject.Controllers
             return Ok(data);
         }
 
-        // Post: api/verification/chassis/1
+        // Post: api/verification/chassis/12345
         [HttpPost("chassis")]
         public async Task<IActionResult> PostVerificationChassisNo([FromBody]Verification verification)
         {
@@ -75,48 +75,30 @@ namespace FontaineVerificationProject.Controllers
                 return BadRequest(ModelState);
             }
 
-            var emptyVerification = new Verification();
-            if (await TryUpdateModelAsync<Verification>(
-                emptyVerification,
-                "1234",   // Prefix for form value.
-                x => x.ChassisNo))
-            {
-                _context.Verification.Add(emptyVerification);
-                await _context.SaveChangesAsync();
-            }
-
-                //var data = _context.Verification.Attach(verification);
-
-                //_context.Verification.Add(verification);
-                //await _context.SaveChangesAsync();
-
-            //var data = _context.Database.ExecuteSqlCommand(@"INSERT INTO Verification (ChassisNo) VALUES (15)");
-
-            
-
+             _context.Verification.Add(verification);
+            await _context.SaveChangesAsync();          
             return Ok();
         }
+    
 
-        
+        // Delete: api/verification/2
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteVerificationChassisNo(int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
+            var bookItem = await _context.verification.FindAsync(id);
+
+             _context.verification.Remove(bookItem);
+            await _context.SaveChangesAsync();          
+            return NoContent();
+        }
     }
+}
 
-
-    ////[Route("api/[controller]")]
-    //[ApiController]
-    //public class VerificationController : ControllerBase
-    //{
-    //    // POST api/verification/chassis
-    //    [HttpPost("api/verification/chassis")]
-    //    public bool Post([FromBody] Verification verification )
-    //    {
-    //        if (verification == null)
-    //        {
-    //            return false;
-    //        }
-
-    //        return VerificationProcessor.ProcessAddChassis(verification);
-    //    }
 
     //// DELETE api/users/chassis
     //[HttpDelete("api/verification/chassis")]
