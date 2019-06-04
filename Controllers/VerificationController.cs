@@ -20,12 +20,85 @@ namespace FontaineVerificationProject.Controllers
             _context = context;
         }
 
+        // GET: api/verification
         [HttpGet]
         public async Task<IActionResult> GetVerification()
         {
-            var data = await _context.Verification.ToListAsync();
+            List<Verification> data = await _context.Verification.ToListAsync();
             return Ok(data);
         }
+
+        // GET: api/verification/2
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetVerificationById(int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var data = await _context.Verification.Where(x => x.VerificationID == id).ToListAsync();
+
+            if (data == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(data);
+        }
+
+        // GET: api/verification/chassis/12345
+        [HttpGet("chassis/{no}")]
+        public async Task<IActionResult> GetVerificationByChassisNo(string no)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var data = await _context.Verification.Where(x => x.ChassisNo.Equals(no)).ToListAsync();
+
+            if (data == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(data);
+        }
+
+        // Post: api/verification/chassis/1
+        [HttpPost("chassis")]
+        public async Task<IActionResult> PostVerificationChassisNo([FromBody]Verification verification)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var emptyVerification = new Verification();
+            if (await TryUpdateModelAsync<Verification>(
+                emptyVerification,
+                "1234",   // Prefix for form value.
+                x => x.ChassisNo))
+            {
+                _context.Verification.Add(emptyVerification);
+                await _context.SaveChangesAsync();
+            }
+
+                //var data = _context.Verification.Attach(verification);
+
+                //_context.Verification.Add(verification);
+                //await _context.SaveChangesAsync();
+
+            //var data = _context.Database.ExecuteSqlCommand(@"INSERT INTO Verification (ChassisNo) VALUES (15)");
+
+            
+
+            return Ok();
+        }
+
+        
+
     }
 
 

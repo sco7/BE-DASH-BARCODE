@@ -14,7 +14,7 @@ namespace FontaineVerificationProject.Helpers
         {
             CreateMap<Verification, VerificationDto>();
             CreateMap<LoginDto, User>();
-            CreateMap<RegisterDto, User>();
+            CreateMap<RegisterDto, User>();        
         }
     }
 }

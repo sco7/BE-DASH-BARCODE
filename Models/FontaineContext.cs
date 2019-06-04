@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using FontaineVerificationProject.Dtos;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +18,7 @@ namespace FontaineVerificationProject.Models
         }
 
         public virtual DbSet<User> User { get; set; }
-        public virtual DbSet<Verification> Verification { get; set; }
+        public virtual DbSet<Verification> Verification { get; set; }     
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -32,38 +33,16 @@ namespace FontaineVerificationProject.Models
             modelBuilder.Entity<Verification>(entity =>
             {
                 entity.HasKey(e => e.VerificationID);
-
                 entity.Property(e => e.VerificationID).HasColumnName("VerificationID");
 
-                entity.Property(e => e.ChassisNo)
-                    .HasMaxLength(15)
-                    .IsUnicode(false);
+                entity.HasKey(e => e.ChassisNo);
+                entity.Property(e => e.ChassisNo).HasColumnName("ChassisNo");            
 
-                entity.Property(e => e.V1UserName)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.V1DateTime)
-                    .HasColumnName("V1DateTime")            
-                    .IsUnicode(false);
-
-                entity.Property(e => e.V1DateTime).HasColumnType("datetime");
-
-                entity.Property(e => e.V2UserName)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.V2DateTime)
-                    .HasColumnName("V2DateTime")
-                    .IsUnicode(false);
-
-                entity.Property(e => e.V2DateTime).HasColumnType("datetime");
             });
 
             modelBuilder.Entity<User>(entity =>
             {
                 entity.HasKey(e => e.UserID);
-
                 entity.Property(e => e.UserID).HasColumnName("UserID");
 
                 entity.Property(e => e.Email)
