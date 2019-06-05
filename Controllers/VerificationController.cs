@@ -103,21 +103,31 @@ namespace FontaineVerificationProject.Controllers
         }
 
         // Put api/verification/v1
-        [HttpPut("api/verification/v1/{no}")]
-        public async Task<IActionResult> UpdateVerificationV1(string no, [FromBody]Verification verification)
+        [HttpPut("v1/{no}")]
+        public async Task<IActionResult> UpdateVerificationV1(string no)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
+            }   
+
+            var data = await _context.Verification.Where(x => x.ChassisNo.Equals(no)).ToListAsync();
+            
+            if (data.Count == 0) 
+            {
+                return NotFound();
             }
 
-            var id = await GetVerificationByChassisNo(no);
+            data[0].V1Passed = "Passed";
+            data[0].V1UserName = "Username";
+            data[0].V1DateTime = DateTime.Now;
 
-            var data = _context.Verification.Find(id);           
+            //_context.Verification.Update(data[0]);
+            await _context.SaveChangesAsync();  
+            return Ok(data[0]);
 
-            _context.Entry(data).CurrentValues.SetValues(verification);                
-            await _context.SaveChangesAsync();          
-            return Ok(data);
+
+                         
 
         }
 

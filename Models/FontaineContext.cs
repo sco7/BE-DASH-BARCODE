@@ -24,7 +24,8 @@ namespace FontaineVerificationProject.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Server=sage200-2016\\sql2014;Database=Fontaine;User Id=dash;Password=Chatburn441977;");
+                //optionsBuilder.UseSqlServer("Server=sage200-2016\\sql2014;Database=Fontaine;User Id=dash;Password=Chatburn441977;");
+                optionsBuilder.UseSqlServer("Server=.;Database=FontaineVerification;Trusted_Connection=True;User Id=sa;Password=reallyStrongPwd123;Integrated Security=false;MultipleActiveResultSets=true;");
             }
         }
 
