@@ -3,11 +3,15 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations.Schema;
+
 
 namespace FontaineVerificationProject.Models
 {
     public class Verification
     {
+        [Key]
+        [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
         public int VerificationID { get; set; }
         public string ChassisNo { get; set; }
         public string V1UserName { get; set; }

@@ -36,7 +36,16 @@ namespace FontaineVerificationProject.Models
                 entity.Property(e => e.VerificationID).HasColumnName("VerificationID");
 
                 entity.HasKey(e => e.ChassisNo);
-                entity.Property(e => e.ChassisNo).HasColumnName("ChassisNo");            
+                entity.Property(e => e.ChassisNo);
+
+                entity.Property(e => e.V1UserName);             
+
+                entity.Property(e => e.V1DateTime);
+                entity.Property(e => e.V1Passed);
+                entity.Property(e => e.V2UserName);
+                entity.Property(e => e.V2DateTime);
+                entity.Property(e => e.V2Passed);
+
 
             });
 

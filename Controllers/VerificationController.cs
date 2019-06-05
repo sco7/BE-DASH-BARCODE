@@ -82,35 +82,51 @@ namespace FontaineVerificationProject.Controllers
     
 
         // Delete: api/verification/2
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteVerificationChassisNo(int id)
+        [HttpDelete("chassis/{no}")]
+        public async Task<IActionResult> DeleteVerificationChassisNo(string no)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);          
+            }
+
+            var data = await _context.Verification.Where(x => x.ChassisNo.Equals(no)).ToListAsync();
+            
+            if (data.Count == 0) 
+            {
+                return NotFound();
+            }
+
+             _context.Verification.Remove(data[0]);
+            await _context.SaveChangesAsync();          
+            return Ok(data[0]);
+        }
+
+        // Put api/verification/v1
+        [HttpPut("api/verification/v1/{no}")]
+        public async Task<IActionResult> UpdateVerificationV1(string no, [FromBody]Verification verification)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var bookItem = await _context.verification.FindAsync(id);
+            var id = await GetVerificationByChassisNo(no);
 
-             _context.verification.Remove(bookItem);
+            var data = _context.Verification.Find(id);           
+
+            _context.Entry(data).CurrentValues.SetValues(verification);                
             await _context.SaveChangesAsync();          
-            return NoContent();
+            return Ok(data);
+
         }
+
     }
+
 }
 
 
-    //// DELETE api/users/chassis
-    //[HttpDelete("api/verification/chassis")]
-    //public bool Delete([FromBody] Verification verification)
-    //{
-    //    if (verification == null)
-    //    {
-    //        return false;
-    //    }
-
-    //    return VerificationProcessor.ProcessDeleteChassis(verification);
-    //}
+    
 
     //// PUT api/verification/v1
     //[HttpPut("api/verification/v1")]
@@ -150,4 +166,4 @@ namespace FontaineVerificationProject.Controllers
     //    return VerificationProcessor.ProcessGetChassisNo(verification);
     //}
     //}
-}
+
