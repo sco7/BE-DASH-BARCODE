@@ -90,53 +90,87 @@ namespace FontaineVerificationProject.Controllers
                 return BadRequest(ModelState);          
             }
 
-            var data = await _context.Verification.Where(x => x.ChassisNo.Equals(no)).ToListAsync();
+            var data = await _context.Verification.Where(x => x.ChassisNo.Equals(no)).FirstOrDefaultAsync();
             
-            if (data.Count == 0) 
+            if (data == null) 
             {
                 return NotFound();
             }
 
-             _context.Verification.Remove(data[0]);
+             _context.Verification.Remove(data);
             await _context.SaveChangesAsync();          
-            return Ok(data[0]);
+            return Ok(data);
         }
 
         // Put api/verification/v1
-        [HttpPut("v1/{no}")]
-        public async Task<IActionResult> UpdateVerificationV1(string no)
+        [HttpPut("v1")]
+        public async Task<IActionResult> UpdateVerificationV1([FromBody]Verification verification)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }   
 
-            var data = await _context.Verification.Where(x => x.ChassisNo.Equals(no)).ToListAsync();
+            var data = await _context.Verification.Where(x => x.ChassisNo.Equals(verification.ChassisNo)).FirstOrDefaultAsync();
             
-            if (data.Count == 0) 
+            if (data == null) 
             {
                 return NotFound();
             }
 
-            data[0].V1Passed = "Passed";
-            data[0].V1UserName = "Username";
-            data[0].V1DateTime = DateTime.Now;
+            if (verification.V1Passed == null)
+            {
+                return BadRequest("Verification is null");     
+            }
 
-            //_context.Verification.Update(data[0]);
+            if (verification.V1UserName == null)
+            {
+                return BadRequest("Username is null");    
+            }
+
+            data.V1Passed = verification.V1Passed;
+            data.V1UserName = verification.V1UserName;
+            data.V1DateTime = DateTime.Now;
+
             await _context.SaveChangesAsync();  
-            return Ok(data[0]);
-
-
-                         
-
+            return Ok(data);
         }
 
+        // Put api/verification/v2
+        [HttpPut("v2")]
+        public async Task<IActionResult> UpdateVerificationV2([FromBody]Verification verification)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }   
+
+            var data = await _context.Verification.Where(x => x.ChassisNo.Equals(verification.ChassisNo)).FirstOrDefaultAsync();
+            
+            if (data == null) 
+            {
+                return NotFound();
+            }
+
+            if (verification.V2Passed == null)
+            {
+                return BadRequest("Verification is null");     
+            }
+
+            if (verification.V2UserName == null)
+            {
+                return BadRequest("Username is null");    
+            }
+
+            data.V2Passed = verification.V2Passed;
+            data.V2UserName = verification.V2UserName;
+            data.V2DateTime = DateTime.Now;
+            
+            await _context.SaveChangesAsync();  
+            return Ok(data);
+        }
     }
-
 }
-
-
-    
 
     //// PUT api/verification/v1
     //[HttpPut("api/verification/v1")]
