@@ -4,10 +4,10 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace FontaineVerificationProject.Dtos
-{
-    public class VerificationDto
-    {
-        public string ChassisNo { get; set; }  
-    }
-}
+// namespace FontaineVerificationProject.Dtos
+// {
+//     public class VerificationDto
+//     {
+//         public string ChassisNo { get; set; }  
+//     }
+// }

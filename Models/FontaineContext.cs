@@ -18,7 +18,8 @@ namespace FontaineVerificationProject.Models
         }
 
         public virtual DbSet<User> User { get; set; }
-        public virtual DbSet<Verification> Verification { get; set; }     
+        public virtual DbSet<Verification> Verification { get; set; }
+        public virtual DbSet<Sale> Sale {get; set;}     
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -66,6 +67,23 @@ namespace FontaineVerificationProject.Models
                 entity.Property(e => e.Password).HasMaxLength(128);
 
                 entity.Property(e => e.Salt).HasMaxLength(128);
+            });
+
+            modelBuilder.Entity<Sale>(entity =>
+            {
+                entity.HasKey(e => e.SalesOrderID);
+                entity.Property(e => e.SalesOrderID).HasColumnName("SalesOrderID");
+
+                entity.Property(e => e.CustomerProductNo);
+                entity.Property(e => e.CustomerProductNo).HasColumnName("CustomerProductNo");
+                    
+
+                entity.Property(e => e.Description);
+                  
+
+                entity.Property(e => e.DispatchDate);
+
+                entity.Property(e => e.ChassisNo);
             });
         }
     }

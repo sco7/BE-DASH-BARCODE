@@ -28,7 +28,7 @@ namespace FontaineVerificationProject.Controllers
             return Ok(data);
         }
 
-        // GET: api/verification/2
+        // GET: api/verification/{id}
         [HttpGet("{id}")]
         public async Task<IActionResult> GetVerificationById(int id)
         {
@@ -47,7 +47,7 @@ namespace FontaineVerificationProject.Controllers
             return Ok(data);
         }
 
-        // GET: api/verification/chassis/12345
+        // GET: api/verification/chassis/{no}
         [HttpGet("chassis/{no}")]
         public async Task<IActionResult> GetVerificationByChassisNo(string no)
         {
@@ -66,7 +66,7 @@ namespace FontaineVerificationProject.Controllers
             return Ok(data);
         }
 
-        // Post: api/verification/chassis/12345
+        // Post: api/verification/chassis
         [HttpPost("chassis")]
         public async Task<IActionResult> PostVerificationChassisNo([FromBody]Verification verification)
         {
@@ -80,7 +80,7 @@ namespace FontaineVerificationProject.Controllers
             return Ok();
         }
     
-        // Delete: api/verification/2
+        // Delete: api/verification/chassis/{no}
         [HttpDelete("chassis/{no}")]
         public async Task<IActionResult> DeleteVerificationChassisNo(string no)
         {

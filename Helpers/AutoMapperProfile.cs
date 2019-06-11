@@ -12,7 +12,8 @@ namespace FontaineVerificationProject.Helpers
     {
         public AutoMapperProfile()
         {
-            CreateMap<Verification, VerificationDto>();
+            //CreateMap<Verification, VerificationDto>();
+            //CreateMap<Sale, SaleDto>();
             CreateMap<LoginDto, User>();
             CreateMap<RegisterDto, User>();        
         }

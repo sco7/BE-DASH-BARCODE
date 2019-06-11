@@ -20,7 +20,7 @@ namespace FontaineVerificationProject.Controllers
         {
             _context = context;
         }  
-        // Delete: api/user/delete/xxxx
+        // Delete: api/user/delete/{user}
         [HttpDelete("delete/{user}")]
         public async Task<IActionResult> DeleteUser(string user)
         {
