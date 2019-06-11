@@ -1,39 +1,47 @@
-﻿//using System;
-//using System.Collections.Generic;
-//using System.Linq;
-//using System.Threading.Tasks;
-//using FontaineVerificationProject.Models;
-//using FontaineVerificationProject.Processers;
-//using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using FontaineVerificationProject.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
 
-//namespace FontaineVerificationProject.Controllers
-//{
-//    //[Route("api/[controller]")]
-//    [ApiController]
-//    public class UsersController : ControllerBase
-//    {     
-//        // POST api/users/save
-//        [HttpPost("api/users/save")]
-//        public bool Post([FromBody] User user )
-//        {
-//            if (user == null)
-//            {
-//                return false;
-//            }
+namespace FontaineVerificationProject.Controllers
+{
+   //[Route("api/[controller]")]
+    [Authorize]
+    [Route("api/[controller]")]
+    [ApiController]
+    public class UserController : ControllerBase
+    {
+        private readonly FontaineContext _context;
+        public UserController(FontaineContext context)
+        {
+            _context = context;
+        }  
+        // Delete: api/user/delete/xxxx
+        [HttpDelete("delete/{user}")]
+        public async Task<IActionResult> DeleteUser(string user)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);          
+            }
 
-//            return UserProcessor.ProcessAddUser(user);
-//        }
+            var data = await _context.User.Where(x => x.UserName.Equals(user)).FirstOrDefaultAsync();
+            
+            if (data == null) 
+            {
+                return NotFound();
+            }
 
-//        // DELETE api/users/delete
-//        [HttpDelete("api/users/delete")]
-//        public bool Delete([FromBody] User user)
-//        {
-//            if (user == null)
-//            {
-//                return false;
-//            }
+            _context.User.Remove(data);
+            await _context.SaveChangesAsync();          
+            return Ok($"User {user} deleted");
+            
+        }
+    }
+}
 
-//            return UserProcessor.ProcessDeleteUser(user);
-//        }
-//    }
-//}
+

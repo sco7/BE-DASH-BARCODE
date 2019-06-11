@@ -80,7 +80,6 @@ namespace FontaineVerificationProject.Controllers
             return Ok();
         }
     
-
         // Delete: api/verification/2
         [HttpDelete("chassis/{no}")]
         public async Task<IActionResult> DeleteVerificationChassisNo(string no)
@@ -100,6 +99,7 @@ namespace FontaineVerificationProject.Controllers
              _context.Verification.Remove(data);
             await _context.SaveChangesAsync();          
             return Ok(data);
+            return Ok($"Chassis {no} deleted");
         }
 
         // Put api/verification/v1
@@ -120,12 +120,12 @@ namespace FontaineVerificationProject.Controllers
 
             if (verification.V1Passed == null)
             {
-                return BadRequest("Verification is null");     
+                return BadRequest("Verification should not be null");     
             }
 
             if (verification.V1UserName == null)
             {
-                return BadRequest("Username is null");    
+                return BadRequest("Username should not be null");    
             }
 
             data.V1Passed = verification.V1Passed;
@@ -154,60 +154,22 @@ namespace FontaineVerificationProject.Controllers
 
             if (verification.V2Passed == null)
             {
-                return BadRequest("Verification is null");     
+                return BadRequest("Verification should not be null");     
             }
 
             if (verification.V2UserName == null)
             {
-                return BadRequest("Username is null");    
+                return BadRequest("Username should not be null");    
             }
 
             data.V2Passed = verification.V2Passed;
             data.V2UserName = verification.V2UserName;
             data.V2DateTime = DateTime.Now;
-            
+        
             await _context.SaveChangesAsync();  
             return Ok(data);
         }
     }
 }
 
-    //// PUT api/verification/v1
-    //[HttpPut("api/verification/v1")]
-    //public bool PutV1([FromBody] Verification verification)
-    //{
-    //    if (verification == null)
-    //    {
-    //        return false;
-    //    }
-
-    //    return VerificationProcessor.ProcessUpdateV1(verification);
-    //}
-
-    //// PUT api/verification/v2
-    //[HttpPut("api/verification/v2")]
-    //public bool PutV2([FromBody] Verification verification)
-    //{
-    //    if (verification == null)
-    //    {
-    //        return false;
-    //    }
-
-    //    return VerificationProcessor.ProcessUpdateV2(verification);
-    //}
-
-    //// GET api/verification/chassis
-    //[HttpGet("api/verification/chassis")]
-    //public string[] Get()
-    //{      
-    //    return VerificationProcessor.ProcessGetChassis();
-    //}
-
-    //// GET api/verification/chassisNo/{chassisNo:string}   //working on this controller - not working yet
-    //[HttpGet("api/verification/chassis/chassisNo:string")]
-    //public string[] Get(Verification verification)
-    //{
-    //    return VerificationProcessor.ProcessGetChassisNo(verification);
-    //}
-    //}
 

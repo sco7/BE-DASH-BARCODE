@@ -46,7 +46,7 @@ namespace FontaineVerificationProject.Controllers
         {
             var userFromRepo = await _repo.Login(loginDto.Email.ToLower(), loginDto.Password);
             if (userFromRepo == null)
-                return Unauthorized();
+                return BadRequest("User not registered! Please check that your Email and Password have been entered correctly");
 
             var claims = new[]
             {
@@ -60,7 +60,7 @@ namespace FontaineVerificationProject.Controllers
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.Now.AddDays(1),
+                Expires = DateTime.Now.AddDays(30),
                 SigningCredentials = creds
             };
 
