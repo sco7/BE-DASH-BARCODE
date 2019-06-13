@@ -2664,6 +2664,15 @@
           "lib/netstandard2.0/Neodynamic.SDK.ThermalLabel.dll": {}
         }
       },
+      "Neodynamic.SDK.ThermalLabel.WindowsPrinting/8.0.18.427": {
+        "type": "package",
+        "compile": {
+          "lib/net461/Neodynamic.SDK.ThermalLabel.WindowsPrinting.dll": {}
+        },
+        "runtime": {
+          "lib/net461/Neodynamic.SDK.ThermalLabel.WindowsPrinting.dll": {}
+        }
+      },
       "NETStandard.Library/2.0.3": {
         "type": "package",
         "dependencies": {
@@ -7110,6 +7119,18 @@
         "lib/netstandard2.0/Neodynamic.SDK.ThermalLabel.dll",
         "neodynamic.sdk.thermallabel.8.0.19.401.nupkg.sha512",
         "neodynamic.sdk.thermallabel.nuspec"
+      ]
+    },
+    "Neodynamic.SDK.ThermalLabel.WindowsPrinting/8.0.18.427": {
+      "sha512": "IPTdEhr5yLEKsSGBBpT9PVfP2MzXJqLNTYzZ5Yq8+YKxYeKIn5pUPq0CJR7cbJJxRy7EUh5Ip8iOuMO7M2caRQ==",
+      "type": "package",
+      "path": "neodynamic.sdk.thermallabel.windowsprinting/8.0.18.427",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net461/Neodynamic.SDK.ThermalLabel.WindowsPrinting.dll",
+        "neodynamic.sdk.thermallabel.windowsprinting.8.0.18.427.nupkg.sha512",
+        "neodynamic.sdk.thermallabel.windowsprinting.nuspec"
       ]
     },
     "NETStandard.Library/2.0.3": {
@@ -12023,7 +12044,8 @@
       "Microsoft.AspNetCore.App >= 2.1.1",
       "Microsoft.AspNetCore.Razor.Design >= 2.1.2",
       "Microsoft.NETCore.App >= 2.1.0",
-      "Neodynamic.SDK.ThermalLabel >= 8.0.19.401"
+      "Neodynamic.SDK.ThermalLabel >= 8.0.19.401",
+      "Neodynamic.SDK.ThermalLabel.WindowsPrinting >= 8.0.18.427"
     ]
   },
   "packageFolders": {
@@ -12094,6 +12116,10 @@
           "Neodynamic.SDK.ThermalLabel": {
             "target": "Package",
             "version": "[8.0.19.401, )"
+          },
+          "Neodynamic.SDK.ThermalLabel.WindowsPrinting": {
+            "target": "Package",
+            "version": "[8.0.18.427, )"
           }
         },
         "imports": [
@@ -12103,5 +12129,17 @@
         "warn": true
       }
     }
-  }
+  },
+  "logs": [
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'Neodynamic.SDK.ThermalLabel.WindowsPrinting 8.0.18.427' was restored using '.NETFramework,Version=v4.6.1' instead of the project target framework '.NETCoreApp,Version=v2.1'. This package may not be fully compatible with your project.",
+      "libraryId": "Neodynamic.SDK.ThermalLabel.WindowsPrinting",
+      "targetGraphs": [
+        ".NETCoreApp,Version=v2.1"
+      ]
+    }
+  ]
 }

@@ -16,5 +16,6 @@ namespace FontaineVerificationProject.Models
         public string Description { get; set; }
         public DateTime? DispatchDate { get; set; }
         public int ChassisNo { get; set; }
+        public int SerialNo { get; set; }
     }
 }

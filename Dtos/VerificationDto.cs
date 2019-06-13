@@ -8,6 +8,6 @@ using System.Threading.Tasks;
 // {
 //     public class VerificationDto
 //     {
-//         public string ChassisNo { get; set; }  
+//         public int ChassisNo { get; set; }  
 //     }
 // }

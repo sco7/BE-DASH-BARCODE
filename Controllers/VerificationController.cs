@@ -39,7 +39,7 @@ namespace FontaineVerificationProject.Controllers
 
             var data = await _context.Verification.Where(x => x.VerificationID == id).ToListAsync();
 
-            if (data == null)
+            if (data.Count == 0)
             {
                 return NotFound();
             }
@@ -49,7 +49,7 @@ namespace FontaineVerificationProject.Controllers
 
         // GET: api/verification/chassis/{no}
         [HttpGet("chassis/{no}")]
-        public async Task<IActionResult> GetVerificationByChassisNo(string no)
+        public async Task<IActionResult> GetVerificationByChassisNo(int no)
         {
             if (!ModelState.IsValid)
             {
@@ -58,7 +58,7 @@ namespace FontaineVerificationProject.Controllers
 
             var data = await _context.Verification.Where(x => x.ChassisNo.Equals(no)).ToListAsync();
 
-            if (data == null)
+            if (data.Count == 0)
             {
                 return NotFound();
             }
@@ -98,7 +98,7 @@ namespace FontaineVerificationProject.Controllers
 
              _context.Verification.Remove(data);
             await _context.SaveChangesAsync();          
-            return Ok(data);
+            //return Ok(data);
             return Ok($"Chassis {no} deleted");
         }
 
