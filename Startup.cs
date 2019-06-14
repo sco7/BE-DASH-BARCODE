@@ -57,8 +57,9 @@ namespace FontaineVerificationProject
             }
 
             app.UseCors(x => x.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
-            app.UseHttpsRedirection();
+            
             app.UseAuthentication();
+            app.UseHttpsRedirection();
             app.UseMvc();
         }
     }

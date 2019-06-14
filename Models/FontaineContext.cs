@@ -37,7 +37,6 @@ namespace FontaineVerificationProject.Models
                 entity.HasKey(e => e.VerificationID);
                 entity.Property(e => e.VerificationID).HasColumnName("VerificationID");
 
-                entity.HasKey(e => e.ChassisNo);
                 entity.Property(e => e.ChassisNo);
 
                 entity.Property(e => e.V1UserName);             
@@ -56,7 +55,7 @@ namespace FontaineVerificationProject.Models
                 entity.HasKey(e => e.UserID);
                 entity.Property(e => e.UserID).HasColumnName("UserID");
 
-                entity.Property(e => e.Email)
+                entity.Property(e => e.UserLog)
                     .HasMaxLength(50)
                     .IsUnicode(false);
 

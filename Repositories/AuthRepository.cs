@@ -16,16 +16,16 @@ namespace FontaineVerificationProject.Repositories
             _context = context;
         }
 
-        public async Task<User> Login(string email, string password)
+        public async Task<User> Login(string user, string password)
         {
-            var user = await _context.User.FirstOrDefaultAsync(x => x.Email == email);
-            if (user == null)
+            var currentUser = await _context.User.FirstOrDefaultAsync(x => x.UserLog == user);
+            if (currentUser == null)
                 return null;
 
-            if (!VerifyPasswordHash(password, user.Password, user.Salt))
+            if (!VerifyPasswordHash(password, currentUser.Password, currentUser.Salt))
                 return null;
 
-            return user; // auth successful
+            return currentUser; // auth successful
         }
 
         public async Task<User> Register(User user, string password)
@@ -65,7 +65,7 @@ namespace FontaineVerificationProject.Repositories
 
         public async Task<bool> UserExists(string userName)
         {
-            if (await _context.User.AnyAsync(x => x.Email == userName))
+            if (await _context.User.AnyAsync(x => x.UserLog == userName))
                 return true;
             return false;
         }

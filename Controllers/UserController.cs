@@ -20,6 +20,7 @@ namespace FontaineVerificationProject.Controllers
         {
             _context = context;
         }  
+
         // Delete: api/user/delete/{user}
         [HttpDelete("delete/{user}")]
         public async Task<IActionResult> DeleteUser(string user)
@@ -29,7 +30,7 @@ namespace FontaineVerificationProject.Controllers
                 return BadRequest(ModelState);          
             }
 
-            var data = await _context.User.Where(x => x.UserName.Equals(user)).FirstOrDefaultAsync();
+            var data = await _context.User.Where(x => x.UserLog.Equals(user)).FirstOrDefaultAsync();
             
             if (data == null) 
             {
@@ -38,7 +39,7 @@ namespace FontaineVerificationProject.Controllers
 
             _context.User.Remove(data);
             await _context.SaveChangesAsync();          
-            return Ok($"User {user} deleted");
+            return Ok($"User account {user} deleted");
             
         }
     }
