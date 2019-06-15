@@ -55,11 +55,11 @@ namespace FontaineVerificationProject.Models
                 entity.HasKey(e => e.UserID);
                 entity.Property(e => e.UserID).HasColumnName("UserID");
 
-                entity.Property(e => e.UserLog)
+                entity.Property(e => e.UserName)
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
-                entity.Property(e => e.UserName)
+                entity.Property(e => e.FullName)
                     .HasMaxLength(50)
                     .IsUnicode(false);
 

@@ -18,7 +18,7 @@ namespace FontaineVerificationProject.Repositories
 
         public async Task<User> Login(string user, string password)
         {
-            var currentUser = await _context.User.FirstOrDefaultAsync(x => x.UserLog == user);
+            var currentUser = await _context.User.FirstOrDefaultAsync(x => x.UserName == user);
             if (currentUser == null)
                 return null;
 
@@ -65,7 +65,7 @@ namespace FontaineVerificationProject.Repositories
 
         public async Task<bool> UserExists(string userName)
         {
-            if (await _context.User.AnyAsync(x => x.UserLog == userName))
+            if (await _context.User.AnyAsync(x => x.UserName == userName))
                 return true;
             return false;
         }

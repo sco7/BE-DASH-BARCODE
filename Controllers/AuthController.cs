@@ -32,26 +32,26 @@ namespace FontaineVerificationProject.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register(RegisterDto registerDto)
         {
-            registerDto.UserLog = registerDto.UserLog.ToLower();
-            if (await _repo.UserExists(registerDto.UserLog))
+            registerDto.UserName = registerDto.UserName.ToLower();
+            if (await _repo.UserExists(registerDto.UserName))
                 return BadRequest("User already exists");
 
             var userToCreate = _mapper.Map<User>(registerDto);
             var createdUser = await _repo.Register(userToCreate, registerDto.Password);
-            return StatusCode(201, new { user = createdUser.UserLog, username = createdUser.UserName });
+            return StatusCode(201, new { UserName = createdUser.UserName, FullName = createdUser.FullName });
         }
 
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginDto loginDto)
         {
-            var userFromRepo = await _repo.Login(loginDto.UserLog.ToLower(), loginDto.Password);
+            var userFromRepo = await _repo.Login(loginDto.UserName.ToLower(), loginDto.Password);
             if (userFromRepo == null)
                 return BadRequest("User not registered! Please check that your UserName and Password have been entered correctly");
 
             var claims = new[]
             {
                 new Claim(ClaimTypes.NameIdentifier, userFromRepo.UserID.ToString()),
-                new Claim(ClaimTypes.Name, userFromRepo.UserLog)
+                new Claim(ClaimTypes.Name, userFromRepo.UserName)
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8
@@ -67,7 +67,7 @@ namespace FontaineVerificationProject.Controllers
             var tokenHandler = new JwtSecurityTokenHandler();
             var token = tokenHandler.CreateToken(tokenDescriptor);
 
-            return Ok(new { token = tokenHandler.WriteToken(token), userlog = userFromRepo.UserLog, username = userFromRepo.UserName });
+            return Ok(new { token = tokenHandler.WriteToken(token), UserName = userFromRepo.UserName, FullName = userFromRepo.FullName });
         }
     }
 }

@@ -61,6 +61,8 @@ namespace FontaineVerificationProject
             app.UseAuthentication();
             app.UseHttpsRedirection();
             app.UseMvc();
+
+             
         }
     }
 }

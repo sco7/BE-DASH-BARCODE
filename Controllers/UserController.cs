@@ -30,7 +30,7 @@ namespace FontaineVerificationProject.Controllers
                 return BadRequest(ModelState);          
             }
 
-            var data = await _context.User.Where(x => x.UserLog.Equals(user)).FirstOrDefaultAsync();
+            var data = await _context.User.Where(x => x.UserName.Equals(user)).FirstOrDefaultAsync();
             
             if (data == null) 
             {
