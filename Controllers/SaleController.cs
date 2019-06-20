@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Neodynamic.SDK.Printing;
 using FontaineVerificationProject.Labels;
 using FontaineVerificationProject.Helpers;
+using System.Globalization;
 
 
 namespace FontaineVerificationProject.Controllers
@@ -53,8 +54,8 @@ namespace FontaineVerificationProject.Controllers
         }
 
         // PRINT: api/sale/print/{date}
-        [HttpGet("print/{date}")]
-        public async Task<IActionResult> PrintLabelsByDate(DateTime date)
+        [HttpGet("print/{dateString}")]
+        public async Task<IActionResult> PrintLabelsByDate(string dateString)
         {
             
             if (!ModelState.IsValid)
@@ -62,20 +63,30 @@ namespace FontaineVerificationProject.Controllers
                 return BadRequest(ModelState);
             }
 
+            DateTime date = DateTime.ParseExact(dateString, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+
             List<Sale> data = await _context.Sale.Where(x => x.DispatchDate == date).ToListAsync();
 
-            if (data.Count == 0)
-            {
-                return NotFound();
+            if (data.Count == 0) return NotFound("No orders found to dispatch on this date!");
+            
+            // Posts chassis no's to the verification table before printing labels and validate for duplicates no's
+            foreach (var i in data) {
+                
+                if( _context.Verification.Any(x => x.ChassisNo == i.ChassisNo))
+                {
+                     return BadRequest("Duplicate chassis number(s) found to exist on the validation table, duplicates wil not be added");
+                }
+                _context.Verification.Add(new Verification {ChassisNo = i.ChassisNo});
+                _context.SaveChanges();
             }
 
             var printLabels = new PrintLabels();
             printLabels.PrintDespatchLabels(data);
 
-            return Ok();
+            return Ok(data);
         }
 
-         // REPRINT: api/sale/reprint/{chassisNo}
+        // REPRINT: api/sale/reprint/{chassisNo}
         [HttpGet("reprint/{chassisNo}")]
         public async Task<IActionResult> PrintV1LabelsByChassisNo(int chassisNo)
         {

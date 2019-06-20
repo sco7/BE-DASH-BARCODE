@@ -79,17 +79,17 @@ namespace FontaineVerificationProject.Controllers
             await _context.SaveChangesAsync();          
             return Ok();
         }
-    
+
         // Delete: api/verification/chassis/{no}
         [HttpDelete("chassis/{no}")]
-        public async Task<IActionResult> DeleteVerificationChassisNo(string no)
+        public async Task<IActionResult> DeleteVerificationChassisNo(int no)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);          
             }
 
-            var data = await _context.Verification.Where(x => x.ChassisNo.Equals(no)).FirstOrDefaultAsync();
+            var data = await _context.Verification.Where(x => x.ChassisNo == no).FirstOrDefaultAsync();
             
             if (data == null) 
             {

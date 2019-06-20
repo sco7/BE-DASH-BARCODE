@@ -34,7 +34,7 @@ namespace FontaineVerificationProject.Controllers
         {
             registerDto.UserName = registerDto.UserName.ToLower();
             if (await _repo.UserExists(registerDto.UserName))
-                return BadRequest("User already exists");
+                return BadRequest("This UserName is already registered");
 
             var userToCreate = _mapper.Map<User>(registerDto);
             var createdUser = await _repo.Register(userToCreate, registerDto.Password);

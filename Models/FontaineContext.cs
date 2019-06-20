@@ -46,8 +46,6 @@ namespace FontaineVerificationProject.Models
                 entity.Property(e => e.V2UserName);
                 entity.Property(e => e.V2DateTime);
                 entity.Property(e => e.V2Passed);
-
-
             });
 
             modelBuilder.Entity<User>(entity =>

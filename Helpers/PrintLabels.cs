@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using FontaineVerificationProject.Models;
 using Neodynamic.SDK.Printing;
 using FontaineVerificationProject.Labels;
+using FontaineVerificationProject.Controllers;
 
 namespace FontaineVerificationProject.Helpers
 {
@@ -37,7 +38,7 @@ namespace FontaineVerificationProject.Helpers
 
                     // Print
                     //Export.Export.Print(tLabel1, tLabel1copies, tLabel1printerName);
-                    //Export.Export.Print(tLabel2, tLabel2copies, tLabel2printerName);        
+                    //Export.Export.Print(tLabel2, tLabel2copies, tLabel2printerName);
             }
         }
     }
