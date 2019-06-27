@@ -43,7 +43,7 @@ namespace FontaineVerificationProject.Controllers
                 return BadRequest(ModelState);
             }
 
-            List<Sale> data = await _context.Sale.Where(x => x.DispatchDate == date).ToListAsync();
+            List<Sale> data = await _context.Sale.Where(x => x.DispatchDate == date && x.Customer == "SCAHOL").ToListAsync();
 
             if (data.Count == 0)
             {
@@ -52,6 +52,26 @@ namespace FontaineVerificationProject.Controllers
 
             return Ok(data);
         }
+
+        // GET: api/sale/stockcode/{no}
+        [HttpGet("stockcode/{no}")]      
+        public async Task<IActionResult> GetSalesByStockCode(int no)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            List<Sale> data = await _context.Sale.Where(x => x.StockCode == no && x.Customer == "SCAHOL").ToListAsync();
+
+            if (data.Count == 0)
+            {
+                return NotFound();
+            }
+
+            return Ok(data[0]);
+        }
+
 
         // PRINT: api/sale/print/{date}
         [HttpGet("print/{dateString}")]
@@ -65,21 +85,24 @@ namespace FontaineVerificationProject.Controllers
 
             DateTime date = DateTime.ParseExact(dateString, "dd-MM-yyyy", CultureInfo.InvariantCulture);
 
-            List<Sale> data = await _context.Sale.Where(x => x.DispatchDate == date).ToListAsync();
+            List<Sale> data = await _context.Sale.Where(x => x.DispatchDate == date && x.Customer == "SCAHOL").ToListAsync();
 
             if (data.Count == 0) return NotFound("No orders found to dispatch on this date!");
             
-            // Posts chassis no's to the verification table before printing labels and validate for duplicates no's
+            // Check chassis no's to the verification table before printing labels and validate for duplicates no's
             foreach (var i in data) {
-                
+
                 if( _context.Verification.Any(x => x.ChassisNo == i.ChassisNo))
                 {
-                     return BadRequest("Duplicate chassis number(s) found to exist on the validation table, duplicates wil not be added");
+                     return BadRequest("Duplicate chassis number(s) found to exist on the validation table, data will not be added");
                 }
+            }
+
+            foreach (var i in data) {
+
                 _context.Verification.Add(new Verification {ChassisNo = i.ChassisNo});
                 _context.SaveChanges();
             }
-
             var printLabels = new PrintLabels();
             printLabels.PrintDespatchLabels(data);
 
@@ -96,13 +119,10 @@ namespace FontaineVerificationProject.Controllers
                 return BadRequest(ModelState);
             }
 
-            List<Sale> data = await _context.Sale.Where(x => x.ChassisNo == chassisNo).ToListAsync();
+            List<Sale> data = await _context.Sale.Where(x => x.ChassisNo == chassisNo && x.Customer == "SCAHOL").ToListAsync();
 
-            if (data.Count == 0)
-            {
-                return NotFound();
-            }
-
+            if (data.Count == 0) return NotFound("No matching chassis number found");
+            
             var printLabels = new PrintLabels();
             printLabels.PrintDespatchLabels(data);
 

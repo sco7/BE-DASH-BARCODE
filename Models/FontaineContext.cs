@@ -70,18 +70,14 @@ namespace FontaineVerificationProject.Models
             {
                 entity.HasKey(e => e.SalesOrderID);
                 entity.Property(e => e.SalesOrderID).HasColumnName("SalesOrderID");
-
+                entity.Property(e => e.StockCode); 
+                entity.Property(e => e.Customer);
                 entity.Property(e => e.CustomerProductNo);
-                entity.Property(e => e.CustomerProductNo).HasColumnName("CustomerProductNo");
-                    
-
-                entity.Property(e => e.Description);
-                  
-
+                entity.Property(e => e.ChassisNo);                  
+                entity.Property(e => e.StockDescription);
                 entity.Property(e => e.DispatchDate);
-
-                entity.Property(e => e.ChassisNo);
             });
         }
     }
 }
+

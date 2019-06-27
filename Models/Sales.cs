@@ -12,10 +12,12 @@ namespace FontaineVerificationProject.Models
         [Key]
         [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
         public int SalesOrderID { get; set; }
-        public int CustomerProductNo { get; set; }
-        public string Description { get; set; }
-        public DateTime? DispatchDate { get; set; }
+        public int StockCode { get; set; }
+        public string Customer { get; set; }
         public int ChassisNo { get; set; }
-        public int SerialNo { get; set; }
+        public int CustomerProductNo { get; set; }
+        public string StockDescription { get; set; }
+        public DateTime DispatchDate { get; set; }
+        
     }
 }

@@ -56,14 +56,21 @@ namespace FontaineVerificationProject.Controllers
                 return BadRequest(ModelState);
             }
 
-            var data = await _context.Verification.Where(x => x.ChassisNo.Equals(no)).ToListAsync();
-
-            if (data.Count == 0)
+            try 
             {
-                return NotFound();
-            }
+                var data = await _context.Verification.Where(x => x.ChassisNo.Equals(no)).ToListAsync();
 
-            return Ok(data);
+                if (data.Count == 0)
+                {
+                    return NotFound();
+                }
+
+                return Ok(data[0]);
+            }
+            catch 
+            {
+                return BadRequest("Chassis number valid");
+            }
         }
 
         // Post: api/verification/chassis
@@ -144,7 +151,7 @@ namespace FontaineVerificationProject.Controllers
             {
                 return BadRequest(ModelState);
             }   
-
+           
             var data = await _context.Verification.Where(x => x.ChassisNo.Equals(verification.ChassisNo)).FirstOrDefaultAsync();
             
             if (data == null) 

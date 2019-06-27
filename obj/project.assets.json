@@ -28,7 +28,7 @@
           "lib/netstandard2.0/AutoMapper.Extensions.Microsoft.DependencyInjection.dll": {}
         }
       },
-      "HarfBuzzSharp/1.4.6": {
+      "HarfBuzzSharp/1.4.6.2": {
         "type": "package",
         "compile": {
           "lib/netstandard1.3/HarfBuzzSharp.dll": {}
@@ -41,17 +41,25 @@
             "assetType": "native",
             "rid": "osx"
           },
-          "runtimes/win7-x64/native/libHarfBuzzSharp.dll": {
+          "runtimes/tizen-armel/native/libHarfBuzzSharp.so": {
             "assetType": "native",
-            "rid": "win7-x64"
+            "rid": "tizen-armel"
           },
-          "runtimes/win7-x86/native/libHarfBuzzSharp.dll": {
+          "runtimes/tizen-x86/native/libHarfBuzzSharp.so": {
             "assetType": "native",
-            "rid": "win7-x86"
+            "rid": "tizen-x86"
+          },
+          "runtimes/win-x64/native/libHarfBuzzSharp.dll": {
+            "assetType": "native",
+            "rid": "win-x64"
+          },
+          "runtimes/win-x86/native/libHarfBuzzSharp.dll": {
+            "assetType": "native",
+            "rid": "win-x86"
           }
         }
       },
-      "Microsoft.AspNet.WebApi.Client/5.2.6": {
+      "Microsoft.AspNet.WebApi.Client/5.2.7": {
         "type": "package",
         "dependencies": {
           "Newtonsoft.Json": "10.0.1",
@@ -2609,7 +2617,7 @@
           "Microsoft.NETCore.DotNetAppHost": "2.1.0"
         }
       },
-      "Microsoft.NETCore.Platforms/2.1.0": {
+      "Microsoft.NETCore.Platforms/2.2.1": {
         "type": "package",
         "compile": {
           "lib/netstandard1.0/_._": {}
@@ -2645,6 +2653,24 @@
             "rid": "unix"
           },
           "runtimes/win/lib/netstandard2.0/Microsoft.Win32.Registry.dll": {
+            "assetType": "runtime",
+            "rid": "win"
+          }
+        }
+      },
+      "Microsoft.Win32.SystemEvents/4.5.0": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.NETCore.Platforms": "2.0.0"
+        },
+        "compile": {
+          "ref/netstandard2.0/_._": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.Win32.SystemEvents.dll": {}
+        },
+        "runtimeTargets": {
+          "runtimes/win/lib/netcoreapp2.0/Microsoft.Win32.SystemEvents.dll": {
             "assetType": "runtime",
             "rid": "win"
           }
@@ -2938,7 +2964,7 @@
           }
         }
       },
-      "SkiaSharp/1.60.0": {
+      "SkiaSharp/1.68.0": {
         "type": "package",
         "compile": {
           "lib/netstandard1.3/SkiaSharp.dll": {}
@@ -2951,21 +2977,29 @@
             "assetType": "native",
             "rid": "osx"
           },
-          "runtimes/win7-x64/native/libSkiaSharp.dll": {
+          "runtimes/tizen-armel/native/libSkiaSharp.so": {
             "assetType": "native",
-            "rid": "win7-x64"
+            "rid": "tizen-armel"
           },
-          "runtimes/win7-x86/native/libSkiaSharp.dll": {
+          "runtimes/tizen-x86/native/libSkiaSharp.so": {
             "assetType": "native",
-            "rid": "win7-x86"
+            "rid": "tizen-x86"
+          },
+          "runtimes/win-x64/native/libSkiaSharp.dll": {
+            "assetType": "native",
+            "rid": "win-x64"
+          },
+          "runtimes/win-x86/native/libSkiaSharp.dll": {
+            "assetType": "native",
+            "rid": "win-x86"
           }
         }
       },
-      "SkiaSharp.HarfBuzz/1.60.0": {
+      "SkiaSharp.HarfBuzz/1.68.0": {
         "type": "package",
         "dependencies": {
-          "HarfBuzzSharp": "1.4.6",
-          "SkiaSharp": "1.60.0"
+          "HarfBuzzSharp": "1.4.6.2",
+          "SkiaSharp": "1.68.0"
         },
         "compile": {
           "lib/netstandard1.3/SkiaSharp.HarfBuzz.dll": {}
@@ -3212,6 +3246,29 @@
         },
         "compile": {
           "ref/netstandard1.5/System.Diagnostics.Tracing.dll": {}
+        }
+      },
+      "System.Drawing.Common/4.5.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.NETCore.Platforms": "2.0.0",
+          "Microsoft.Win32.SystemEvents": "4.5.0"
+        },
+        "compile": {
+          "ref/netstandard2.0/System.Drawing.Common.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/System.Drawing.Common.dll": {}
+        },
+        "runtimeTargets": {
+          "runtimes/unix/lib/netcoreapp2.0/System.Drawing.Common.dll": {
+            "assetType": "runtime",
+            "rid": "unix"
+          },
+          "runtimes/win/lib/netcoreapp2.0/System.Drawing.Common.dll": {
+            "assetType": "runtime",
+            "rid": "win"
+          }
         }
       },
       "System.Dynamic.Runtime/4.3.0": {
@@ -3719,7 +3776,7 @@
           "ref/netstandard1.5/System.Runtime.dll": {}
         }
       },
-      "System.Runtime.CompilerServices.Unsafe/4.5.1": {
+      "System.Runtime.CompilerServices.Unsafe/4.5.2": {
         "type": "package",
         "compile": {
           "ref/netstandard2.0/System.Runtime.CompilerServices.Unsafe.dll": {}
@@ -4165,14 +4222,14 @@
           "ref/netstandard1.3/System.Text.Encoding.dll": {}
         }
       },
-      "System.Text.Encoding.CodePages/4.5.0": {
+      "System.Text.Encoding.CodePages/4.5.1": {
         "type": "package",
         "dependencies": {
-          "Microsoft.NETCore.Platforms": "2.0.0",
-          "System.Runtime.CompilerServices.Unsafe": "4.5.0"
+          "Microsoft.NETCore.Platforms": "2.1.2",
+          "System.Runtime.CompilerServices.Unsafe": "4.5.2"
         },
         "compile": {
-          "ref/netstandard2.0/System.Text.Encoding.CodePages.dll": {}
+          "lib/netstandard2.0/System.Text.Encoding.CodePages.dll": {}
         },
         "runtime": {
           "lib/netstandard2.0/System.Text.Encoding.CodePages.dll": {}
@@ -4475,38 +4532,51 @@
         "lib/netstandard2.0/AutoMapper.Extensions.Microsoft.DependencyInjection.pdb"
       ]
     },
-    "HarfBuzzSharp/1.4.6": {
-      "sha512": "iyUFjOO/BiEUTerwe2O8+V3Ac91U9YVv6Hc9KuGua/r5UJ4doujiyG4r9BuuMQMnpgpc8XhL78t/sZ4x9Eifjw==",
+    "HarfBuzzSharp/1.4.6.2": {
+      "sha512": "D0RoRE3X/uV1E2x6dETdcxIllJJLxgq9lgE5fBRjKZolksPGkqQ43R/Bphxt3zRDmF3YvuJeK5KwEU+rCdGruA==",
       "type": "package",
-      "path": "harfbuzzsharp/1.4.6",
+      "path": "harfbuzzsharp/1.4.6.2",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "build/net45/HarfBuzzSharp.dll.config",
+        "LICENSE.txt",
+        "THIRD-PARTY-NOTICES.txt",
         "build/net45/HarfBuzzSharp.targets",
-        "harfbuzzsharp.1.4.6.nupkg.sha512",
+        "build/tizen40/HarfBuzzSharp.targets",
+        "harfbuzzsharp.1.4.6.2.nupkg.sha512",
         "harfbuzzsharp.nuspec",
         "lib/MonoAndroid/HarfBuzzSharp.dll",
-        "lib/XamarinMac/HarfBuzzSharp.dll",
-        "lib/XamariniOS/HarfBuzzSharp.dll",
-        "lib/XamarintvOS/HarfBuzzSharp.dll",
+        "lib/MonoAndroid/HarfBuzzSharp.xml",
+        "lib/Xamarin.Mac20/HarfBuzzSharp.dll",
+        "lib/Xamarin.Mac20/HarfBuzzSharp.xml",
+        "lib/Xamarin.TVOS/HarfBuzzSharp.dll",
+        "lib/Xamarin.TVOS/HarfBuzzSharp.xml",
+        "lib/Xamarin.WatchOS/HarfBuzzSharp.dll",
+        "lib/Xamarin.WatchOS/HarfBuzzSharp.xml",
+        "lib/Xamarin.iOS/HarfBuzzSharp.dll",
+        "lib/Xamarin.iOS/HarfBuzzSharp.xml",
         "lib/net45/HarfBuzzSharp.dll",
-        "lib/net45/HarfBuzzSharp.dll.config",
+        "lib/net45/HarfBuzzSharp.xml",
         "lib/netstandard1.3/HarfBuzzSharp.dll",
-        "lib/portable-net45+win8+wpa81+wp8/HarfBuzzSharp.dll",
+        "lib/netstandard1.3/HarfBuzzSharp.xml",
+        "lib/tizen40/HarfBuzzSharp.dll",
+        "lib/tizen40/HarfBuzzSharp.xml",
         "lib/uap10.0/HarfBuzzSharp.dll",
+        "lib/uap10.0/HarfBuzzSharp.xml",
         "runtimes/osx/native/libHarfBuzzSharp.dylib",
+        "runtimes/tizen-armel/native/libHarfBuzzSharp.so",
+        "runtimes/tizen-x86/native/libHarfBuzzSharp.so",
+        "runtimes/win-x64/native/libHarfBuzzSharp.dll",
+        "runtimes/win-x86/native/libHarfBuzzSharp.dll",
         "runtimes/win10-arm/nativeassets/uap10.0/libHarfBuzzSharp.dll",
         "runtimes/win10-x64/nativeassets/uap10.0/libHarfBuzzSharp.dll",
-        "runtimes/win10-x86/nativeassets/uap10.0/libHarfBuzzSharp.dll",
-        "runtimes/win7-x64/native/libHarfBuzzSharp.dll",
-        "runtimes/win7-x86/native/libHarfBuzzSharp.dll"
+        "runtimes/win10-x86/nativeassets/uap10.0/libHarfBuzzSharp.dll"
       ]
     },
-    "Microsoft.AspNet.WebApi.Client/5.2.6": {
-      "sha512": "91JMnE9zdIDphG00qgRvl8ZwKEjqAbNlJdfXUoMiIWPfpYyH7fyCsTSj6/aynRdw/Qr/K70xC7QC6MOJ1vFBJQ==",
+    "Microsoft.AspNet.WebApi.Client/5.2.7": {
+      "sha512": "/76fAHknzvFqbznS6Uj2sOyE9rJB3PltY+f53TH8dX9RiGhk02EhuFCWljSj5nnqKaTsmma8DFR50OGyQ4yJ1g==",
       "type": "package",
-      "path": "microsoft.aspnet.webapi.client/5.2.6",
+      "path": "microsoft.aspnet.webapi.client/5.2.7",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -4516,7 +4586,7 @@
         "lib/netstandard2.0/System.Net.Http.Formatting.xml",
         "lib/portable-wp8+netcore45+net45+wp81+wpa81/System.Net.Http.Formatting.dll",
         "lib/portable-wp8+netcore45+net45+wp81+wpa81/System.Net.Http.Formatting.xml",
-        "microsoft.aspnet.webapi.client.5.2.6.nupkg.sha512",
+        "microsoft.aspnet.webapi.client.5.2.7.nupkg.sha512",
         "microsoft.aspnet.webapi.client.nuspec"
       ]
     },
@@ -7034,17 +7104,17 @@
         "runtime.json"
       ]
     },
-    "Microsoft.NETCore.Platforms/2.1.0": {
-      "sha512": "GmkKfoyerqmsHMn7OZj0AKpcBabD+GaafqphvX2Mw406IwiJRy1pKcKqdCfKJfYmkRyJ6+e+RaUylgdJoDa1jQ==",
+    "Microsoft.NETCore.Platforms/2.2.1": {
+      "sha512": "QRGQDN9a/RflmqEpT47gJ04befYL1T+Z7ctRuBfc5PdUO3k5VnV5Y1glBMnWbAPGfP62x8EAwmZPNEpsYX/qig==",
       "type": "package",
-      "path": "microsoft.netcore.platforms/2.1.0",
+      "path": "microsoft.netcore.platforms/2.2.1",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "LICENSE.TXT",
         "THIRD-PARTY-NOTICES.TXT",
         "lib/netstandard1.0/_._",
-        "microsoft.netcore.platforms.2.1.0.nupkg.sha512",
+        "microsoft.netcore.platforms.2.2.1.nupkg.sha512",
         "microsoft.netcore.platforms.nuspec",
         "runtime.json",
         "useSharedDesignerContext.txt",
@@ -7104,6 +7174,26 @@
         "runtimes/win/lib/net461/Microsoft.Win32.Registry.dll",
         "runtimes/win/lib/netstandard1.3/Microsoft.Win32.Registry.dll",
         "runtimes/win/lib/netstandard2.0/Microsoft.Win32.Registry.dll",
+        "useSharedDesignerContext.txt",
+        "version.txt"
+      ]
+    },
+    "Microsoft.Win32.SystemEvents/4.5.0": {
+      "sha512": "LuI1oG+24TUj1ZRQQjM5Ew73BKnZE5NZ/7eAdh1o8ST5dPhUnJvIkiIn2re3MwnkRy6ELRnvEbBxHP8uALKhJw==",
+      "type": "package",
+      "path": "microsoft.win32.systemevents/4.5.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.TXT",
+        "THIRD-PARTY-NOTICES.TXT",
+        "lib/net461/Microsoft.Win32.SystemEvents.dll",
+        "lib/netstandard2.0/Microsoft.Win32.SystemEvents.dll",
+        "microsoft.win32.systemevents.4.5.0.nupkg.sha512",
+        "microsoft.win32.systemevents.nuspec",
+        "ref/net461/Microsoft.Win32.SystemEvents.dll",
+        "ref/netstandard2.0/Microsoft.Win32.SystemEvents.dll",
+        "runtimes/win/lib/netcoreapp2.0/Microsoft.Win32.SystemEvents.dll",
         "useSharedDesignerContext.txt",
         "version.txt"
       ]
@@ -7595,35 +7685,40 @@
         "version.txt"
       ]
     },
-    "SkiaSharp/1.60.0": {
-      "sha512": "HoSNIZH54rinevEhLUWdeclr+H/QdmOp252+Tt07HTXwQyvRl9eW32ga/X7T56wsR855SKprb0RcnBPRCzlqSA==",
+    "SkiaSharp/1.68.0": {
+      "sha512": "ptuxAKk9FiClNnAgWM8hVMCYw/B0hUJWZ8W6efnIAtJmJn/Xl4jvxxDF5WOqfQYCLVzxXw5gvBPVxvTLblFp0g==",
       "type": "package",
-      "path": "skiasharp/1.60.0",
+      "path": "skiasharp/1.68.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "build/net45/SkiaSharp.dll.config",
+        "LICENSE.txt",
+        "THIRD-PARTY-NOTICES.txt",
         "build/net45/SkiaSharp.targets",
+        "build/tizen40/SkiaSharp.targets",
         "lib/MonoAndroid/SkiaSharp.dll",
         "lib/MonoAndroid/SkiaSharp.xml",
-        "lib/XamarinMac/SkiaSharp.dll",
-        "lib/XamarinMac/SkiaSharp.xml",
-        "lib/XamariniOS/SkiaSharp.dll",
-        "lib/XamariniOS/SkiaSharp.xml",
-        "lib/XamarintvOS/SkiaSharp.dll",
-        "lib/XamarintvOS/SkiaSharp.xml",
-        "lib/XamarinwatchOS/SkiaSharp.dll",
-        "lib/XamarinwatchOS/SkiaSharp.xml",
+        "lib/Xamarin.Mac20/SkiaSharp.dll",
+        "lib/Xamarin.Mac20/SkiaSharp.xml",
+        "lib/Xamarin.TVOS/SkiaSharp.dll",
+        "lib/Xamarin.TVOS/SkiaSharp.xml",
+        "lib/Xamarin.WatchOS/SkiaSharp.dll",
+        "lib/Xamarin.WatchOS/SkiaSharp.xml",
+        "lib/Xamarin.iOS/SkiaSharp.dll",
+        "lib/Xamarin.iOS/SkiaSharp.xml",
         "lib/net45/SkiaSharp.dll",
-        "lib/net45/SkiaSharp.dll.config",
         "lib/net45/SkiaSharp.xml",
         "lib/netstandard1.3/SkiaSharp.dll",
         "lib/netstandard1.3/SkiaSharp.xml",
-        "lib/portable-net45+win8+wpa81+wp8/SkiaSharp.dll",
-        "lib/portable-net45+win8+wpa81+wp8/SkiaSharp.xml",
+        "lib/tizen40/SkiaSharp.dll",
+        "lib/tizen40/SkiaSharp.xml",
         "lib/uap10.0/SkiaSharp.dll",
         "lib/uap10.0/SkiaSharp.xml",
         "runtimes/osx/native/libSkiaSharp.dylib",
+        "runtimes/tizen-armel/native/libSkiaSharp.so",
+        "runtimes/tizen-x86/native/libSkiaSharp.so",
+        "runtimes/win-x64/native/libSkiaSharp.dll",
+        "runtimes/win-x86/native/libSkiaSharp.dll",
         "runtimes/win10-arm/nativeassets/uap10.0/libEGL.dll",
         "runtimes/win10-arm/nativeassets/uap10.0/libGLESv2.dll",
         "runtimes/win10-arm/nativeassets/uap10.0/libSkiaSharp.dll",
@@ -7633,23 +7728,24 @@
         "runtimes/win10-x86/nativeassets/uap10.0/libEGL.dll",
         "runtimes/win10-x86/nativeassets/uap10.0/libGLESv2.dll",
         "runtimes/win10-x86/nativeassets/uap10.0/libSkiaSharp.dll",
-        "runtimes/win7-x64/native/libSkiaSharp.dll",
-        "runtimes/win7-x86/native/libSkiaSharp.dll",
-        "skiasharp.1.60.0.nupkg.sha512",
+        "skiasharp.1.68.0.nupkg.sha512",
         "skiasharp.nuspec",
         "xamarin.interactive/SkiaSharp.Workbooks.dll"
       ]
     },
-    "SkiaSharp.HarfBuzz/1.60.0": {
-      "sha512": "3WDFox3AG3HIzYz+NuwQodwaYuH7CZ94J2cpCak2GnED5zzHX5/CDiUP7r71cmk7M7UHbn1MxbCP2crxePwmlQ==",
+    "SkiaSharp.HarfBuzz/1.68.0": {
+      "sha512": "tgzXHYCKiABq1WPe+LkROydhuUz/kH4YZ2mSPAW2TrlpGaMNevI6I864HbQxmHw1wAWgFCxDhv6yYOnONfmc+A==",
       "type": "package",
-      "path": "skiasharp.harfbuzz/1.60.0",
+      "path": "skiasharp.harfbuzz/1.68.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
+        "LICENSE.txt",
+        "lib/net45/SkiaSharp.HarfBuzz.dll",
+        "lib/net45/SkiaSharp.HarfBuzz.xml",
         "lib/netstandard1.3/SkiaSharp.HarfBuzz.dll",
-        "lib/portable-net45+win8+wpa81+wp8/SkiaSharp.HarfBuzz.dll",
-        "skiasharp.harfbuzz.1.60.0.nupkg.sha512",
+        "lib/netstandard1.3/SkiaSharp.HarfBuzz.xml",
+        "skiasharp.harfbuzz.1.68.0.nupkg.sha512",
         "skiasharp.harfbuzz.nuspec"
       ]
     },
@@ -8544,6 +8640,39 @@
         "ref/xamarinwatchos10/_._",
         "system.diagnostics.tracing.4.3.0.nupkg.sha512",
         "system.diagnostics.tracing.nuspec"
+      ]
+    },
+    "System.Drawing.Common/4.5.1": {
+      "sha512": "GiyeGi/v4xYDz1vCNFwFvhz9k1XddOG7VD3jxRqzRBCbTHji+s3HxxbxtoymuK4OadEpgotI8zQ5+GEEH9sUEQ==",
+      "type": "package",
+      "path": "system.drawing.common/4.5.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.TXT",
+        "THIRD-PARTY-NOTICES.TXT",
+        "lib/MonoAndroid10/_._",
+        "lib/MonoTouch10/_._",
+        "lib/net461/System.Drawing.Common.dll",
+        "lib/netstandard2.0/System.Drawing.Common.dll",
+        "lib/xamarinios10/_._",
+        "lib/xamarinmac20/_._",
+        "lib/xamarintvos10/_._",
+        "lib/xamarinwatchos10/_._",
+        "ref/MonoAndroid10/_._",
+        "ref/MonoTouch10/_._",
+        "ref/net461/System.Drawing.Common.dll",
+        "ref/netstandard2.0/System.Drawing.Common.dll",
+        "ref/xamarinios10/_._",
+        "ref/xamarinmac20/_._",
+        "ref/xamarintvos10/_._",
+        "ref/xamarinwatchos10/_._",
+        "runtimes/unix/lib/netcoreapp2.0/System.Drawing.Common.dll",
+        "runtimes/win/lib/netcoreapp2.0/System.Drawing.Common.dll",
+        "system.drawing.common.4.5.1.nupkg.sha512",
+        "system.drawing.common.nuspec",
+        "useSharedDesignerContext.txt",
+        "version.txt"
       ]
     },
     "System.Dynamic.Runtime/4.3.0": {
@@ -10125,10 +10254,10 @@
         "system.runtime.nuspec"
       ]
     },
-    "System.Runtime.CompilerServices.Unsafe/4.5.1": {
-      "sha512": "qUJMNWhbm9oZ3XaMFiEMiYmRPszbnXIkRIi7+4b2Md2xZ6JUOepf0/kY3S85qistRohl9OdMe4PsO+RdG2kTIQ==",
+    "System.Runtime.CompilerServices.Unsafe/4.5.2": {
+      "sha512": "wprSFgext8cwqymChhrBLu62LMg/1u92bU+VOwyfBimSPVFXtsNqEWC92Pf9ofzJFlk4IHmJA75EDJn1b2goAQ==",
       "type": "package",
-      "path": "system.runtime.compilerservices.unsafe/4.5.1",
+      "path": "system.runtime.compilerservices.unsafe/4.5.2",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -10144,7 +10273,7 @@
         "ref/netstandard1.0/System.Runtime.CompilerServices.Unsafe.xml",
         "ref/netstandard2.0/System.Runtime.CompilerServices.Unsafe.dll",
         "ref/netstandard2.0/System.Runtime.CompilerServices.Unsafe.xml",
-        "system.runtime.compilerservices.unsafe.4.5.1.nupkg.sha512",
+        "system.runtime.compilerservices.unsafe.4.5.2.nupkg.sha512",
         "system.runtime.compilerservices.unsafe.nuspec",
         "useSharedDesignerContext.txt",
         "version.txt"
@@ -11187,10 +11316,10 @@
         "system.text.encoding.nuspec"
       ]
     },
-    "System.Text.Encoding.CodePages/4.5.0": {
-      "sha512": "16EVkWmNnoH3/Yj9c5s5VuLK5Uv/Dnkc3P2kMmnD7wJcUuvcHVvM2IhVJanf2hHRZUitH+cIkPCPHrBoCXc7Rw==",
+    "System.Text.Encoding.CodePages/4.5.1": {
+      "sha512": "4J2JQXbftjPMppIHJ7IC+VXQ9XfEagN92vZZNoG12i+zReYlim5dMoXFC1Zzg7tsnKDM7JPo5bYfFK4Jheq44w==",
       "type": "package",
-      "path": "system.text.encoding.codepages/4.5.0",
+      "path": "system.text.encoding.codepages/4.5.1",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -11208,19 +11337,6 @@
         "lib/xamarinwatchos10/_._",
         "ref/MonoAndroid10/_._",
         "ref/MonoTouch10/_._",
-        "ref/netstandard1.3/System.Text.Encoding.CodePages.dll",
-        "ref/netstandard1.3/System.Text.Encoding.CodePages.xml",
-        "ref/netstandard1.3/de/System.Text.Encoding.CodePages.xml",
-        "ref/netstandard1.3/es/System.Text.Encoding.CodePages.xml",
-        "ref/netstandard1.3/fr/System.Text.Encoding.CodePages.xml",
-        "ref/netstandard1.3/it/System.Text.Encoding.CodePages.xml",
-        "ref/netstandard1.3/ja/System.Text.Encoding.CodePages.xml",
-        "ref/netstandard1.3/ko/System.Text.Encoding.CodePages.xml",
-        "ref/netstandard1.3/ru/System.Text.Encoding.CodePages.xml",
-        "ref/netstandard1.3/zh-hans/System.Text.Encoding.CodePages.xml",
-        "ref/netstandard1.3/zh-hant/System.Text.Encoding.CodePages.xml",
-        "ref/netstandard2.0/System.Text.Encoding.CodePages.dll",
-        "ref/netstandard2.0/System.Text.Encoding.CodePages.xml",
         "ref/xamarinios10/_._",
         "ref/xamarinmac20/_._",
         "ref/xamarintvos10/_._",
@@ -11229,7 +11345,7 @@
         "runtimes/win/lib/netcoreapp2.0/System.Text.Encoding.CodePages.dll",
         "runtimes/win/lib/netstandard1.3/System.Text.Encoding.CodePages.dll",
         "runtimes/win/lib/netstandard2.0/System.Text.Encoding.CodePages.dll",
-        "system.text.encoding.codepages.4.5.0.nupkg.sha512",
+        "system.text.encoding.codepages.4.5.1.nupkg.sha512",
         "system.text.encoding.codepages.nuspec",
         "useSharedDesignerContext.txt",
         "version.txt"
@@ -12041,11 +12157,20 @@
     ".NETCoreApp,Version=v2.1": [
       "AutoMapper >= 8.1.0",
       "AutoMapper.Extensions.Microsoft.DependencyInjection >= 6.1.0",
+      "HarfBuzzSharp >= 1.4.6.2",
+      "Microsoft.AspNet.WebApi.Client >= 5.2.7",
       "Microsoft.AspNetCore.App >= 2.1.1",
       "Microsoft.AspNetCore.Razor.Design >= 2.1.2",
       "Microsoft.NETCore.App >= 2.1.0",
+      "Microsoft.NETCore.Platforms >= 2.2.1",
+      "NETStandard.Library >= 2.0.3",
       "Neodynamic.SDK.ThermalLabel >= 8.0.19.401",
-      "Neodynamic.SDK.ThermalLabel.WindowsPrinting >= 8.0.18.427"
+      "Neodynamic.SDK.ThermalLabel.WindowsPrinting >= 8.0.18.427",
+      "SkiaSharp >= 1.68.0",
+      "SkiaSharp.HarfBuzz >= 1.68.0",
+      "System.Drawing.Common >= 4.5.1",
+      "System.Runtime.CompilerServices.Unsafe >= 4.5.2",
+      "System.Text.Encoding.CodePages >= 4.5.1"
     ]
   },
   "packageFolders": {
@@ -12097,6 +12222,14 @@
             "target": "Package",
             "version": "[6.1.0, )"
           },
+          "HarfBuzzSharp": {
+            "target": "Package",
+            "version": "[1.4.6.2, )"
+          },
+          "Microsoft.AspNet.WebApi.Client": {
+            "target": "Package",
+            "version": "[5.2.7, )"
+          },
           "Microsoft.AspNetCore.App": {
             "suppressParent": "All",
             "target": "Package",
@@ -12113,6 +12246,14 @@
             "version": "[2.1.0, )",
             "autoReferenced": true
           },
+          "Microsoft.NETCore.Platforms": {
+            "target": "Package",
+            "version": "[2.2.1, )"
+          },
+          "NETStandard.Library": {
+            "target": "Package",
+            "version": "[2.0.3, )"
+          },
           "Neodynamic.SDK.ThermalLabel": {
             "target": "Package",
             "version": "[8.0.19.401, )"
@@ -12120,6 +12261,26 @@
           "Neodynamic.SDK.ThermalLabel.WindowsPrinting": {
             "target": "Package",
             "version": "[8.0.18.427, )"
+          },
+          "SkiaSharp": {
+            "target": "Package",
+            "version": "[1.68.0, )"
+          },
+          "SkiaSharp.HarfBuzz": {
+            "target": "Package",
+            "version": "[1.68.0, )"
+          },
+          "System.Drawing.Common": {
+            "target": "Package",
+            "version": "[4.5.1, )"
+          },
+          "System.Runtime.CompilerServices.Unsafe": {
+            "target": "Package",
+            "version": "[4.5.2, )"
+          },
+          "System.Text.Encoding.CodePages": {
+            "target": "Package",
+            "version": "[4.5.1, )"
           }
         },
         "imports": [
