@@ -88,8 +88,10 @@ namespace FontaineVerificationProject.Controllers
             DateTime date = DateTime.ParseExact(dateString, "dd-MM-yyyy", CultureInfo.InvariantCulture);
 
             // Get orders for requested date
-            List<SorDetail> orderData = await _context.SorDetail.Where(x => x.MLineShipDate == date).Distinct().ToListAsync();
-            if (orderData.Count == 0) return NotFound("No orders found to dispatch on this date!");
+            List<SorDetail> orderData = await _context.SorDetail.Where(x => (x.MLineShipDate == date) && 
+                                                                            ((x.MStockDes.StartsWith("F/W PLATE ASSY") || (x.MStockDes.StartsWith("150SF ASSY 245 XM 880X100CTRS")))))
+                                                                .Distinct().ToListAsync();
+            if (orderData.Count == 0) return NotFound("No orders found to dispatch on this date!");                         
             
             // Get chassis no's relating to the selected orders
             List<string> chassisNoList = new List<string>();
@@ -105,7 +107,7 @@ namespace FontaineVerificationProject.Controllers
                 // Check for duplicate chassis no's on the verification table
                 if( _context.Verification.Any(x => x.ChassisNo == chassisNo))
                 {
-                     return BadRequest("Duplicate chassis number(s) found to exist on the validation table, data will not be added");
+                     return BadRequest("Duplicate chassis number(s) found to exist on the verification table, data will not be added");
                 }
             }
 
@@ -120,31 +122,47 @@ namespace FontaineVerificationProject.Controllers
 
             // Print Lables
             var printLabels = new PrintLabels();
-            printLabels.PrintDespatchLabels(orderData, chassisNoList);
-
-            
+            if (orderData.Count == chassisNoList.Count) {
+                printLabels.PrintDespatchLabels(orderData, chassisNoList);
+            } else 
+            {
+                return BadRequest("Total of chassis no's does not equal total orders");
+            }
                                                     
-            return Ok(chassisNoList);
+            return Ok(orderData);
         }
 
-        // REPRINT: api/sale/reprint/{chassisNo}
-        // [HttpGet("reprint/{chassisNo}")]
-        // public async Task<IActionResult> PrintV1LabelsByChassisNo(int chassisNo)
-        // {
+        //REPRINT: api/sale/reprint/{chassisNo}
+        [HttpGet("reprint/{chassisNo}")]
+        public async Task<IActionResult> ReprintLabelsByChassisNo(string chassisNo)
+        {
             
-        //     if (!ModelState.IsValid)
-        //     {
-        //         return BadRequest(ModelState);
-        //     }
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
-        //     List<SorDetail> data = await _context.SorDetail.Where(x => x.NComment == "Chassis Number: " + chassisNo).ToListAsync();
+            List<Verification> data = await _context.Verification.Where(x => x.ChassisNo == chassisNo).ToListAsync();
+            if (data.Count == 0) return NotFound("No matching chassis number found on the verification table, cannot reprint this Chassis no ");
 
-        //     if (data.Count == 0) return NotFound("No matching chassis number found");
+            // Get orders no's relating to the selected chassis no     
+            var chassisOrder = await _context.SorDetail.Where(x => x.NComment == "Chassis Number: " + chassisNo).Distinct().FirstOrDefaultAsync();
+
+            var orderData = await _context.SorDetail.
             
-        //     var printLabels = new PrintLabels();
-        //     printLabels.PrintDespatchLabels(data);
+            //
+            
+            
+            Where(x => (x.SalesOrder == i.SalesOrder) && (x.NCommentFromLin == i.SalesOrderLine) &&
+                                                                (x.NComment.StartsWith("Chassis ")))
+                                                    .Select(y => y.NComment.Substring(16)).FirstOrDefaultAsync();
 
-        //     return Ok(data);
-        //}
+           
+            
+            var printLabels = new PrintLabels();
+            printLabels.PrintDespatchLabels(orderData, chassisNo);
+
+            return Ok(orderData);
+        }
     }   
 }
