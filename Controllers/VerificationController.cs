@@ -49,7 +49,7 @@ namespace FontaineVerificationProject.Controllers
 
         // GET: api/verification/chassis/{no}
         [HttpGet("chassis/{no}")]
-        public async Task<IActionResult> GetVerificationByChassisNo(int no)
+        public async Task<IActionResult> GetVerificationByChassisNo(string no)
         {
             if (!ModelState.IsValid)
             {
@@ -89,7 +89,7 @@ namespace FontaineVerificationProject.Controllers
 
         // Delete: api/verification/chassis/{no}
         [HttpDelete("chassis/{no}")]
-        public async Task<IActionResult> DeleteVerificationChassisNo(int no)
+        public async Task<IActionResult> DeleteVerificationChassisNo(string no)
         {
             if (!ModelState.IsValid)
             {
@@ -159,15 +159,14 @@ namespace FontaineVerificationProject.Controllers
                 return NotFound();
             }
 
-            if (verification.V2Passed == null)
-            {
-                return BadRequest("Verification should not be null");     
-            }
+            if (data.V1Passed == null) return BadRequest("Verification stage 1 is not complete for this chassis No");
 
-            if (verification.V2UserName == null)
-            {
-                return BadRequest("Username should not be null");    
-            }
+            //if (data.V1Passed == "Fail") return BadRequest("Verification stage 1 Failed");
+
+            if (verification.V2Passed == null) return BadRequest("Verification result should not be null");     
+            
+            if (verification.V2UserName == null) return BadRequest("Username should not be null");    
+            
 
             data.V2Passed = verification.V2Passed;
             data.V2UserName = verification.V2UserName;

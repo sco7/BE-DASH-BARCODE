@@ -19,14 +19,14 @@ namespace FontaineVerificationProject.Models
 
         public virtual DbSet<User> User { get; set; }
         public virtual DbSet<Verification> Verification { get; set; }
-        public virtual DbSet<Sale> Sale {get; set;}     
+        public virtual DbSet<SorDetail> SorDetail {get; set;}     
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
                 optionsBuilder.UseSqlServer("Server=sage200-2016\\sql2014;Database=Fontaine;User Id=dash;Password=Chatburn441977;");
-                //optionsBuilder.UseSqlServer("Server=.;Database=FontaineVerification;Trusted_Connection=True;User Id=sa;Password=reallyStrongPwd123;Integrated Security=false;MultipleActiveResultSets=true;");
+                //optionsBuilder.UseSqlServer("Server=SYSPRO1;Database=SysproCompanyA;User Id=sa;Password=mbl1175;");
             }
         }
 
@@ -46,6 +46,7 @@ namespace FontaineVerificationProject.Models
                 entity.Property(e => e.V2UserName);
                 entity.Property(e => e.V2DateTime);
                 entity.Property(e => e.V2Passed);
+                entity.Property(e => e.SalesOrder);
             });
 
             modelBuilder.Entity<User>(entity =>
@@ -66,16 +67,21 @@ namespace FontaineVerificationProject.Models
                 entity.Property(e => e.Salt).HasMaxLength(128);
             });
 
-            modelBuilder.Entity<Sale>(entity =>
+            modelBuilder.Entity<SorDetail>(entity =>
             {
-                entity.HasKey(e => e.SalesOrderID);
-                entity.Property(e => e.SalesOrderID).HasColumnName("SalesOrderID");
-                entity.Property(e => e.StockCode); 
-                entity.Property(e => e.Customer);
-                entity.Property(e => e.CustomerProductNo);
-                entity.Property(e => e.ChassisNo);                  
-                entity.Property(e => e.StockDescription);
-                entity.Property(e => e.DispatchDate);
+                entity.HasKey(e => e.SalesOrder);
+                entity.Property(e => e.SalesOrder).HasColumnName("SalesOrder");
+                
+                entity.HasKey(e => e.SalesOrderLine);
+                entity.Property(e => e.SalesOrderLine).HasColumnName("SalesOrderLine");
+                
+                entity.Property(e => e.MStockCode); 
+                entity.Property(e => e.MCusSupStkCode);
+                entity.Property(e => e.NComment);
+                entity.Property(e => e.MStockDes);                  
+                entity.Property(e => e.MLineShipDate);
+                entity.Property(e => e.MWarehouse);
+                entity.Property(e => e.NCommentFromLin);
             });
         }
     }

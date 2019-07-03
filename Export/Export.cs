@@ -1,6 +1,7 @@
 using Neodynamic.SDK.Printing;
 using System.Printing;
 using FontaineVerificationProject.PrintingService;
+using System.Threading;
 
 namespace FontaineVerificationProject.Export
 {
@@ -13,7 +14,6 @@ namespace FontaineVerificationProject.Export
                 pj.ThermalLabel = tLabel;
                 pj.ExportToPdf(filePath, 203);
             }
-
             await PDFPrinting.PDFToPrinter(filePath, printerName, copies);
         }
 

@@ -6,7 +6,7 @@ namespace FontaineVerificationProject.Labels
 {
     public class V2Label : ThermalLabel
     {
-        public V2Label(int stockCode, int chassisNo) : base(UnitType.Inch, 4.00, 1.50)
+        public V2Label(string stockCode, string chassisNo) : base(UnitType.Inch, 4.00, 1.50)
         {                  
             var stockCodeLabel = new TextItem(0.62, 1.22, 2.5, 0.5, " Stock Code");
             stockCodeLabel.Font.Name = Font.NativePrinterFontB;

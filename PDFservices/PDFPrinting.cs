@@ -11,6 +11,7 @@ namespace FontaineVerificationProject.PrintingService
     {
         public static async Task PDFToPrinter(string filePath, string printerName, int copies)
         {
+            
             while (copies > 0)
             {     
                 var p = Process.Start(new ProcessStartInfo

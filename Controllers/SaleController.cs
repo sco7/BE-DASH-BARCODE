@@ -30,20 +30,22 @@ namespace FontaineVerificationProject.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllSales()
         {
-            List<Sale> data = await _context.Sale.ToListAsync();
+            List<SorDetail> data = await _context.SorDetail.ToListAsync();
             return Ok(data);
         }
 
-        // GET: api/sale/{date}
-        [HttpGet("{date}")]      
-        public async Task<IActionResult> GetSalesByDate(DateTime date)
+        // GET: api/sale/{dateString}
+        [HttpGet("{dateString}")]      
+        public async Task<IActionResult> GetSalesByDate(string dateString)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            List<Sale> data = await _context.Sale.Where(x => x.DispatchDate == date && x.Customer == "SCAHOL").ToListAsync();
+            DateTime date = DateTime.ParseExact(dateString, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+
+            List<SorDetail> data = await _context.SorDetail.Where(x => x.MLineShipDate == date).ToListAsync();
 
             if (data.Count == 0)
             {
@@ -55,14 +57,14 @@ namespace FontaineVerificationProject.Controllers
 
         // GET: api/sale/stockcode/{no}
         [HttpGet("stockcode/{no}")]      
-        public async Task<IActionResult> GetSalesByStockCode(int no)
+        public async Task<IActionResult> GetSalesByStockCode(string no)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            List<Sale> data = await _context.Sale.Where(x => x.StockCode == no && x.Customer == "SCAHOL").ToListAsync();
+            List<SorDetail> data = await _context.SorDetail.Where(x => x.MStockCode == no).ToListAsync();
 
             if (data.Count == 0)
             {
@@ -73,7 +75,7 @@ namespace FontaineVerificationProject.Controllers
         }
 
 
-        // PRINT: api/sale/print/{date}
+        // PRINT: api/sale/print/{dateString}
         [HttpGet("print/{dateString}")]
         public async Task<IActionResult> PrintLabelsByDate(string dateString)
         {
@@ -85,48 +87,64 @@ namespace FontaineVerificationProject.Controllers
 
             DateTime date = DateTime.ParseExact(dateString, "dd-MM-yyyy", CultureInfo.InvariantCulture);
 
-            List<Sale> data = await _context.Sale.Where(x => x.DispatchDate == date && x.Customer == "SCAHOL").ToListAsync();
-
-            if (data.Count == 0) return NotFound("No orders found to dispatch on this date!");
+            // Get orders for requested date
+            List<SorDetail> orderData = await _context.SorDetail.Where(x => x.MLineShipDate == date).Distinct().ToListAsync();
+            if (orderData.Count == 0) return NotFound("No orders found to dispatch on this date!");
             
-            // Check chassis no's to the verification table before printing labels and validate for duplicates no's
-            foreach (var i in data) {
+            // Get chassis no's relating to the selected orders
+            List<string> chassisNoList = new List<string>();
+            string chassisNo;
+            foreach (var i in orderData)
+            {
+                chassisNo = await _context.SorDetail.Where(x => (x.SalesOrder == i.SalesOrder) && (x.NCommentFromLin == i.SalesOrderLine) &&
+                                                                (x.NComment.StartsWith("Chassis")))
+                                                    .Select(y => y.NComment.Substring(16)).FirstOrDefaultAsync();
 
-                if( _context.Verification.Any(x => x.ChassisNo == i.ChassisNo))
+                chassisNoList.Add(chassisNo);
+
+                // Check for duplicate chassis no's on the verification table
+                if( _context.Verification.Any(x => x.ChassisNo == chassisNo))
                 {
                      return BadRequest("Duplicate chassis number(s) found to exist on the validation table, data will not be added");
                 }
             }
 
-            foreach (var i in data) {
-
-                _context.Verification.Add(new Verification {ChassisNo = i.ChassisNo});
+            // Add chassis no's to the verification table
+            int c = 0;
+            foreach (var i in chassisNoList)
+            {
+                _context.Verification.Add(new Verification {ChassisNo = i, SalesOrder = orderData[c].SalesOrder});
                 _context.SaveChanges();
+                c++;
             }
-            var printLabels = new PrintLabels();
-            printLabels.PrintDespatchLabels(data);
 
-            return Ok(data);
+            // Print Lables
+            var printLabels = new PrintLabels();
+            printLabels.PrintDespatchLabels(orderData, chassisNoList);
+
+            
+                                                    
+            return Ok(chassisNoList);
         }
 
         // REPRINT: api/sale/reprint/{chassisNo}
-        [HttpGet("reprint/{chassisNo}")]
-        public async Task<IActionResult> PrintV1LabelsByChassisNo(int chassisNo)
-        {
+        // [HttpGet("reprint/{chassisNo}")]
+        // public async Task<IActionResult> PrintV1LabelsByChassisNo(int chassisNo)
+        // {
             
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+        //     if (!ModelState.IsValid)
+        //     {
+        //         return BadRequest(ModelState);
+        //     }
 
-            List<Sale> data = await _context.Sale.Where(x => x.ChassisNo == chassisNo && x.Customer == "SCAHOL").ToListAsync();
+        //     List<SorDetail> data = await _context.SorDetail.Where(x => x.NComment == "Chassis Number: " + chassisNo).ToListAsync();
 
-            if (data.Count == 0) return NotFound("No matching chassis number found");
+        //     if (data.Count == 0) return NotFound("No matching chassis number found");
             
-            var printLabels = new PrintLabels();
-            printLabels.PrintDespatchLabels(data);
+        //     var printLabels = new PrintLabels();
+        //     printLabels.PrintDespatchLabels(data);
 
-            return Ok(data);
-        }
+        //     return Ok(data);
+        //}
     }   
 }
