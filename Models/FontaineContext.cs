@@ -19,7 +19,8 @@ namespace FontaineVerificationProject.Models
 
         public virtual DbSet<User> User { get; set; }
         public virtual DbSet<Verification> Verification { get; set; }
-        public virtual DbSet<SorDetail> SorDetail {get; set;}     
+        public virtual DbSet<SorDetail> SorDetail {get; set;}
+        public virtual DbSet<vGetChassisNumbers> vGetChassisNumbers {get; set;}      
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -47,6 +48,10 @@ namespace FontaineVerificationProject.Models
                 entity.Property(e => e.V2DateTime);
                 entity.Property(e => e.V2Passed);
                 entity.Property(e => e.SalesOrder);
+                entity.Property(e => e.CustomerStockCode);
+                entity.Property(e => e.StockDescription);
+                entity.Property(e => e.DispatchDate);
+                entity.Property(e => e.StockCode);
             });
 
             modelBuilder.Entity<User>(entity =>
@@ -81,8 +86,22 @@ namespace FontaineVerificationProject.Models
                 entity.Property(e => e.MStockDes);                  
                 entity.Property(e => e.MLineShipDate);
                 entity.Property(e => e.MWarehouse);
-                entity.Property(e => e.NCommentFromLin);
+                entity.Property(e => e.NCommentFromLin);             
             });
+
+            modelBuilder.Entity<vGetChassisNumbers>(entity =>
+            {
+                entity.HasKey(e => e.SalesOrder);
+                entity.Property(e => e.SalesOrder).HasColumnName("SalesOrder");
+                entity.HasKey(e => e.SalesOrderLine);
+                entity.Property(e => e.SalesOrderLine).HasColumnName("SalesOrderLine"); 
+                entity.Property(e => e.MStockCode); 
+                entity.Property(e => e.MCusSupStkCode);
+                entity.Property(e => e.MStockDes);
+                entity.Property(e => e.MLineShipDate);
+                entity.Property(e => e.ChassisNumber);
+            });
+
         }
     }
 }

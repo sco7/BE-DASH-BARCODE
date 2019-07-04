@@ -74,7 +74,6 @@ namespace FontaineVerificationProject.Controllers
             return Ok(data[0]);
         }
 
-
         // PRINT: api/sale/print/{dateString}
         [HttpGet("print/{dateString}")]
         public async Task<IActionResult> PrintLabelsByDate(string dateString)
@@ -88,48 +87,31 @@ namespace FontaineVerificationProject.Controllers
             DateTime date = DateTime.ParseExact(dateString, "dd-MM-yyyy", CultureInfo.InvariantCulture);
 
             // Get orders for requested date
-            List<SorDetail> orderData = await _context.SorDetail.Where(x => (x.MLineShipDate == date) && 
-                                                                            ((x.MStockDes.StartsWith("F/W PLATE ASSY") || (x.MStockDes.StartsWith("150SF ASSY 245 XM 880X100CTRS")))))
-                                                                .Distinct().ToListAsync();
-            if (orderData.Count == 0) return NotFound("No orders found to dispatch on this date!");                         
-            
-            // Get chassis no's relating to the selected orders
-            List<string> chassisNoList = new List<string>();
-            string chassisNo;
-            foreach (var i in orderData)
+            List<vGetChassisNumbers> data = await _context.vGetChassisNumbers.Where(x => x.MLineShipDate == date).Distinct().ToListAsync();
+            if (data.Count == 0) return NotFound("No orders found to dispatch on this date!");
+
+            // Check for duplicate chassis no's on the verification table 
+            foreach(var i in data) 
             {
-                chassisNo = await _context.SorDetail.Where(x => (x.SalesOrder == i.SalesOrder) && (x.NCommentFromLin == i.SalesOrderLine) &&
-                                                                (x.NComment.StartsWith("Chassis")))
-                                                    .Select(y => y.NComment.Substring(16)).FirstOrDefaultAsync();
-
-                chassisNoList.Add(chassisNo);
-
-                // Check for duplicate chassis no's on the verification table
-                if( _context.Verification.Any(x => x.ChassisNo == chassisNo))
+                if ( _context.Verification.Any(x => x.ChassisNo == i.ChassisNumber))
                 {
-                     return BadRequest("Duplicate chassis number(s) found to exist on the verification table, data will not be added");
+                   return BadRequest("Duplicate chassis number(s) found to exist on the verification table, data will not be added");
                 }
-            }
+            }                        
 
             // Add chassis no's to the verification table
-            int c = 0;
-            foreach (var i in chassisNoList)
+            foreach (var i in data)
             {
-                _context.Verification.Add(new Verification {ChassisNo = i, SalesOrder = orderData[c].SalesOrder});
+                _context.Verification.Add(new Verification {ChassisNo = i.ChassisNumber, SalesOrder = i.SalesOrder, CustomerStockCode = i.MCusSupStkCode, 
+                                                            StockDescription = i.MStockDes, DispatchDate = i.MLineShipDate, StockCode = i.MStockCode});
                 _context.SaveChanges();
-                c++;
             }
 
-            // Print Lables
+            // Print Labels
             var printLabels = new PrintLabels();
-            if (orderData.Count == chassisNoList.Count) {
-                printLabels.PrintDespatchLabels(orderData, chassisNoList);
-            } else 
-            {
-                return BadRequest("Total of chassis no's does not equal total orders");
-            }
-                                                    
-            return Ok(orderData);
+            printLabels.PrintDespatchLabels(data);
+
+            return Ok(data);
         }
 
         //REPRINT: api/sale/reprint/{chassisNo}
@@ -137,32 +119,17 @@ namespace FontaineVerificationProject.Controllers
         public async Task<IActionResult> ReprintLabelsByChassisNo(string chassisNo)
         {
             
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            List<Verification> data = await _context.Verification.Where(x => x.ChassisNo == chassisNo).ToListAsync();
-            if (data.Count == 0) return NotFound("No matching chassis number found on the verification table, cannot reprint this Chassis no ");
-
-            // Get orders no's relating to the selected chassis no     
-            var chassisOrder = await _context.SorDetail.Where(x => x.NComment == "Chassis Number: " + chassisNo).Distinct().FirstOrDefaultAsync();
-
-            var orderData = await _context.SorDetail.
-            
-            //
-            
-            
-            Where(x => (x.SalesOrder == i.SalesOrder) && (x.NCommentFromLin == i.SalesOrderLine) &&
-                                                                (x.NComment.StartsWith("Chassis ")))
-                                                    .Select(y => y.NComment.Substring(16)).FirstOrDefaultAsync();
-
-           
-            
             var printLabels = new PrintLabels();
-            printLabels.PrintDespatchLabels(orderData, chassisNo);
 
-            return Ok(orderData);
-        }
+            // Check chassis number exist in verification table
+            if ( _context.Verification.Any(x => x.ChassisNo == chassisNo))
+            {
+                var data = await _context.vGetChassisNumbers.Where(x => x.ChassisNumber == chassisNo).Distinct().ToListAsync();
+                printLabels.PrintDespatchLabels(data);
+                
+                return Ok(data);
+            }
+                return BadRequest("Chassis no does not exist in the verification table");
+            }
     }   
 }

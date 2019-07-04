@@ -14,7 +14,7 @@ namespace FontaineVerificationProject.Helpers
 {
     public class PrintLabels
     {
-        public void PrintDespatchLabels(List<SorDetail> data, List<string> chassisNoList) {
+        public void PrintDespatchLabels(List<vGetChassisNumbers> data) {
             
             int c = 0;
             foreach (var i in data) 
@@ -25,7 +25,7 @@ namespace FontaineVerificationProject.Helpers
 
                     string customerProductNo = i.MCusSupStkCode; 
                     string stockDescription = i.MStockDes;
-                    string chassisNo = chassisNoList[c];
+                    string chassisNo = i.ChassisNumber;
                     string stockCode = i.MStockCode;
                     DateTime despatchDate = i.MLineShipDate; 
                                     
