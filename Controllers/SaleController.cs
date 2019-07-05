@@ -87,15 +87,15 @@ namespace FontaineVerificationProject.Controllers
             DateTime date = DateTime.ParseExact(dateString, "dd-MM-yyyy", CultureInfo.InvariantCulture);
 
             // Get orders for requested date
-            List<vGetChassisNumbers> data = await _context.vGetChassisNumbers.Where(x => x.MLineShipDate == date).Distinct().ToListAsync();
+            List<vGetChassisNumbers> data = await _context.vGetChassisNumbers.Where(x => (x.MLineShipDate == date) && (x.ChassisNumber != null)).Distinct().ToListAsync();
             if (data.Count == 0) return NotFound("No orders found to dispatch on this date!");
 
-            // Check for duplicate chassis no's on the verification table 
+            // Check for duplicates chassis nos on the verification table 
             foreach(var i in data) 
             {
                 if ( _context.Verification.Any(x => x.ChassisNo == i.ChassisNumber))
                 {
-                   return BadRequest("Duplicate chassis number(s) found to exist on the verification table, data will not be added");
+                   return BadRequest("Duplicate chassis number(s) found to exist on the verification table! Data cannot be added");
                 }
             }                        
 

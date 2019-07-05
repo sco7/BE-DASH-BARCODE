@@ -7,15 +7,14 @@ namespace FontaineVerificationProject.Export
 {
     public class Export
     {
-        public static async void ExportToPDF(ThermalLabel tLabel, string filePath, string printerName, int copies)
+        public static void ExportToPDF(ThermalLabel tLabel, string filePath, string printerName, int copies)
         {                
             using (PrintJob pj = new PrintJob())
             {
                 pj.ThermalLabel = tLabel;
                 pj.ExportToPdf(filePath, 203);
             }
-            await PDFPrinting.PDFToPrinter(filePath, printerName, copies);
+            PDFPrinting.PDFToPrinter(filePath, printerName, copies);
         }
-
     }
 }
