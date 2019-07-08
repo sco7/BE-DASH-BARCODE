@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using FontaineVerificationProject.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -9,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FontaineVerificationProject.Controllers
 {
-   //[Route("api/[controller]")]
+    //[Route("api/[controller]")]
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]

@@ -1,7 +1,5 @@
 using Neodynamic.SDK.Printing;
-using System.Printing;
 using FontaineVerificationProject.PrintingService;
-using System.Threading;
 
 namespace FontaineVerificationProject.Export
 {

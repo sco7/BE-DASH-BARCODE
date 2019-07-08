@@ -1,9 +1,4 @@
-﻿using FontaineVerificationProject.Dtos;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace FontaineVerificationProject.Models
 {
@@ -74,10 +69,8 @@ namespace FontaineVerificationProject.Models
 
             modelBuilder.Entity<SorDetail>(entity =>
             {
-                entity.HasKey(e => e.SalesOrder);
+                entity.HasKey(u => new { u.SalesOrder, u.SalesOrderLine });   
                 entity.Property(e => e.SalesOrder).HasColumnName("SalesOrder");
-                
-                entity.HasKey(e => e.SalesOrderLine);
                 entity.Property(e => e.SalesOrderLine).HasColumnName("SalesOrderLine");
                 
                 entity.Property(e => e.MStockCode); 
@@ -91,10 +84,10 @@ namespace FontaineVerificationProject.Models
 
             modelBuilder.Entity<vGetChassisNumbers>(entity =>
             {
-                entity.HasKey(e => e.SalesOrder);
+                entity.HasKey(u => new { u.SalesOrder, u.SalesOrderLine });   
                 entity.Property(e => e.SalesOrder).HasColumnName("SalesOrder");
-                entity.HasKey(e => e.SalesOrderLine);
                 entity.Property(e => e.SalesOrderLine).HasColumnName("SalesOrderLine"); 
+                
                 entity.Property(e => e.MStockCode); 
                 entity.Property(e => e.MCusSupStkCode);
                 entity.Property(e => e.MStockDes);

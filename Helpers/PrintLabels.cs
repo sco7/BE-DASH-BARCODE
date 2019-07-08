@@ -1,13 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 using FontaineVerificationProject.Models;
 using Neodynamic.SDK.Printing;
 using FontaineVerificationProject.Labels;
-using FontaineVerificationProject.Controllers;
-using System.Text.RegularExpressions;
+using System.IO;
 
 
 namespace FontaineVerificationProject.Helpers
@@ -16,6 +12,7 @@ namespace FontaineVerificationProject.Helpers
     {
         public void PrintDespatchLabels(List<vGetChassisNumbers> data) {
             
+            Array.ForEach(Directory.GetFiles("@C:\\Users\\user\\source\\repos\\Fontaine\\FontaineBackend\\PDFservices\\Data"), File.Delete);
             int c = 0;
             foreach (var i in data) 
             {

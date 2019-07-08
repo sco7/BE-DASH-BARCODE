@@ -1,6 +1,5 @@
 using Neodynamic.SDK.Printing;
 using System;
-using System.Collections.Generic;
 
 namespace FontaineVerificationProject.Labels
 {

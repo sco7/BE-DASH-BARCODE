@@ -6,8 +6,6 @@ using FontaineVerificationProject.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
-using Neodynamic.SDK.Printing;
-using FontaineVerificationProject.Labels;
 using FontaineVerificationProject.Helpers;
 using System.Globalization;
 
@@ -90,17 +88,26 @@ namespace FontaineVerificationProject.Controllers
             List<vGetChassisNumbers> data = await _context.vGetChassisNumbers.Where(x => (x.MLineShipDate == date) && (x.ChassisNumber != null)).Distinct().ToListAsync();
             if (data.Count == 0) return NotFound("No orders found to dispatch on this date!");
 
-            // Check for duplicates chassis nos on the verification table 
+            // Check for duplicates chassis nos on the verification table
+            List<vGetChassisNumbers> data2 = new List<vGetChassisNumbers>();
+            bool duplicates = false;
             foreach(var i in data) 
             {
                 if ( _context.Verification.Any(x => x.ChassisNo == i.ChassisNumber))
                 {
-                   return BadRequest("Duplicate chassis number(s) found to exist on the verification table! Data cannot be added");
+                    duplicates = true;
                 }
-            }                        
+                else
+                {
+                    data2.Add(i);
+                }
+            }
+
+
+            if (data2.Count == 0) return NotFound("Only duplicate chassis numbers found! No data has been added to the verification table.");           
 
             // Add chassis no's to the verification table
-            foreach (var i in data)
+            foreach (var i in data2)
             {
                 _context.Verification.Add(new Verification {ChassisNo = i.ChassisNumber, SalesOrder = i.SalesOrder, CustomerStockCode = i.MCusSupStkCode, 
                                                             StockDescription = i.MStockDes, DispatchDate = i.MLineShipDate, StockCode = i.MStockCode});
@@ -109,9 +116,16 @@ namespace FontaineVerificationProject.Controllers
 
             // Print Labels
             var printLabels = new PrintLabels();
-            printLabels.PrintDespatchLabels(data);
+            printLabels.PrintDespatchLabels(data2);
 
-            return Ok(data);
+            if (duplicates)
+            {
+                   return BadRequest("Duplicate chassis number(s) found to exist on the verification table!  These cannot be added to the verification table!");
+            }
+            else
+            {
+                return Ok(data2);
+            }
         }
 
         //REPRINT: api/sale/reprint/{chassisNo}
@@ -129,7 +143,7 @@ namespace FontaineVerificationProject.Controllers
                 
                 return Ok(data);
             }
-                return BadRequest("Chassis no does not exist in the verification table");
+                return BadRequest("Chassis number does not exist in the verification table");
             }
     }   
 }
