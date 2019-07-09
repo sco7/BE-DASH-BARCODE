@@ -11,8 +11,14 @@ namespace FontaineVerificationProject.Helpers
     public class PrintLabels
     {
         public void PrintDespatchLabels(List<vGetChassisNumbers> data) {
+
+            // Delete existing labels files
+            DirectoryInfo di = new DirectoryInfo(@"PDFservices\Data\");
+            foreach (FileInfo file in di.GetFiles())
+            {
+                file.Delete(); 
+            }
             
-            Array.ForEach(Directory.GetFiles("@C:\\Users\\user\\source\\repos\\Fontaine\\FontaineBackend\\PDFservices\\Data"), File.Delete);
             int c = 0;
             foreach (var i in data) 
             {
@@ -27,16 +33,17 @@ namespace FontaineVerificationProject.Helpers
                     DateTime despatchDate = i.MLineShipDate; 
                                     
                     ThermalLabel tLabel1 = new V1Label(customerProductNo, stockDescription, chassisNo, despatchDate);
-                    //var filepath1 = @"C:\Users\user\Documents\Scott\Fontaine\Label1\" + chassisNo + ".pdf";
-                    var filepath1 = @"C:\Users\user\source\repos\Fontaine\FontaineBackend\PDFservices\Data\Label1-" + chassisNo + ".pdf";
+                    var filepath1 = @"PDFservices\Data\Label1-" + chassisNo + ".pdf";
+                    var filepath1Full = Path.GetFullPath(filepath1);
+                    
                     
                     ThermalLabel tLabel2 = new V2Label(stockCode, chassisNo);
-                    //var filepath2 = @"C:\Users\user\Documents\Scott\Fontaine\Label2\" + serialNo + ".pdf";
-                    var filepath2 = @"C:\Users\user\source\repos\Fontaine\FontaineBackend\PDFservices\Data\Label2-" + chassisNo + ".pdf";
+                    var filepath2 = @"PDFservices\Data\Label2-" + chassisNo + ".pdf";
+                    var filepath2Full = Path.GetFullPath(filepath2);
                     
                     // Export to PDF
-                    Export.Export.ExportToPDF(tLabel1, filepath1, LabelprinterName, tLabel1copies);      
-                    Export.Export.ExportToPDF(tLabel2, filepath2, LabelprinterName, tLabel2copies);
+                    Export.Export.ExportToPDF(tLabel1, filepath1Full, LabelprinterName, tLabel1copies);      
+                    Export.Export.ExportToPDF(tLabel2, filepath2Full, LabelprinterName, tLabel2copies);
 
                     c++;
 

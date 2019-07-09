@@ -21,8 +21,8 @@ namespace FontaineVerificationProject.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Server=sage200-2016\\sql2014;Database=Fontaine;User Id=dash;Password=Chatburn441977;");
-                //optionsBuilder.UseSqlServer("Server=SYSPRO1;Database=SysproCompanyA;User Id=sa;Password=mbl1175;");
+                //optionsBuilder.UseSqlServer("Server=sage200-2016\\sql2014;Database=Fontaine;User Id=dash;Password=Chatburn441977;");
+                optionsBuilder.UseSqlServer("Server=SYSPRO1;Database=VerificationDash;User Id=sa;Password=mbl1175;");
             }
         }
 
@@ -87,7 +87,7 @@ namespace FontaineVerificationProject.Models
                 entity.HasKey(u => new { u.SalesOrder, u.SalesOrderLine });   
                 entity.Property(e => e.SalesOrder).HasColumnName("SalesOrder");
                 entity.Property(e => e.SalesOrderLine).HasColumnName("SalesOrderLine"); 
-                
+
                 entity.Property(e => e.MStockCode); 
                 entity.Property(e => e.MCusSupStkCode);
                 entity.Property(e => e.MStockDes);

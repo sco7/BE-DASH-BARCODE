@@ -14,7 +14,7 @@ namespace FontaineVerificationProject.PrintingService
             
             while (copies > 0)
             {
-                Thread.Sleep(1500);
+                Thread.Sleep(2000);
                 var p = Process.Start(new ProcessStartInfo
                 {
                     FileName = "PDFtoPrinter.exe",
