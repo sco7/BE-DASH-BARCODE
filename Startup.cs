@@ -10,39 +10,64 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using AutoMapper;
-
+using System;
 
 namespace FontaineVerificationProject
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IHostingEnvironment env)
         {
-            Configuration = configuration;
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(env.ContentRootPath)
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+                .AddEnvironmentVariables();
+            Configuration = builder.Build();
         }
 
         public IConfiguration Configuration { get; }
+        private static readonly SymmetricSecurityKey SigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes("Chatburn01200441977"));
 
         // This method gets called by the runtime. Use this method to add services to the container.
         [System.Obsolete]
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddDbContext<FontaineContext>(options => options.UseSqlServer(Configuration.GetConnectionString("SQLConnection")));
             services.AddCors();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options => {
+                    //options.TokenValidationParameters = new TokenValidationParameters
+                    //{
+                    //    ValidateIssuerSigningKey = true,
+                    //    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII
+                    //        .GetBytes("Secure")),
+                    //    ValidateIssuer = false,
+                    //    ValidateAudience = false
+                    //};
+                    options.RequireHttpsMetadata = false;
+                    options.SaveToken = true;
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
+                        ValidateIssuer = true,
+                        ValidIssuer = "Api",
+
+                        ValidateAudience = true,
+                        ValidAudience = "Dash",
+
                         ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII
-                            .GetBytes(Configuration.GetSection("AppSettings:Token").Value)),
-                        ValidateIssuer = false,
-                        ValidateAudience = false
+                        IssuerSigningKey = SigningKey,
+
+                        RequireExpirationTime = true,
+                        ValidateLifetime = true,
+
+                        ClockSkew = TimeSpan.Zero
                     };
                 });
             services.AddAutoMapper();
             services.AddScoped<IAuthRepository, AuthRepository>();
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -60,7 +85,7 @@ namespace FontaineVerificationProject
             app.UseCors(x => x.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
             
             app.UseAuthentication();
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
             app.UseMvc();
 
              

@@ -19,6 +19,12 @@ namespace FontaineVerificationProject
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+                .UseKestrel(opts =>
+                {
+                    opts.ListenAnyIP(8081);
+                })
+                .UseContentRoot(Directory.GetCurrentDirectory())
+                .UseIISIntegration()
                 .UseStartup<Startup>();
     }
 }

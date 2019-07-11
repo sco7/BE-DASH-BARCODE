@@ -17,14 +17,14 @@ namespace FontaineVerificationProject.Models
         public virtual DbSet<SorDetail> SorDetail {get; set;}
         public virtual DbSet<vGetChassisNumbers> vGetChassisNumbers {get; set;}      
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-                //optionsBuilder.UseSqlServer("Server=sage200-2016\\sql2014;Database=Fontaine;User Id=dash;Password=Chatburn441977;");
-                optionsBuilder.UseSqlServer("Server=SYSPRO1;Database=VerificationDash;User Id=sa;Password=mbl1175;");
-            }
-        }
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    if (!optionsBuilder.IsConfigured)
+        //    {
+        //        //optionsBuilder.UseSqlServer("Server=sage200-2016\\sql2014;Database=Fontaine;User Id=dash;Password=Chatburn441977;");
+        //        optionsBuilder.UseSqlServer("Server=SYSPRO1;Database=VerificationDash;User Id=sa;Password=mbl1175;");
+        //    }
+        //}
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
