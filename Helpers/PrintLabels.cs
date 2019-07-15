@@ -33,17 +33,22 @@ namespace FontaineVerificationProject.Helpers
                     DateTime despatchDate = i.MLineShipDate; 
                                     
                     ThermalLabel tLabel1 = new V1Label(customerProductNo, stockDescription, chassisNo, despatchDate);
-                    var filepath1 = @"PDFservices\Data\Label1-" + chassisNo + ".pdf";
-                    var filepath1Full = Path.GetFullPath(filepath1);
-                    
-                    
+                    //var filepath1 = @"PDFservices\Data\Label1-" + chassisNo + ".pdf";
+                    var filepath1 = @"PDFservices\Data\Label1-" + chassisNo + ".zpl";
+                    //var filepath1Full = Path.GetFullPath(filepath1);
+
                     ThermalLabel tLabel2 = new V2Label(stockCode, chassisNo);
-                    var filepath2 = @"PDFservices\Data\Label2-" + chassisNo + ".pdf";
-                    var filepath2Full = Path.GetFullPath(filepath2);
-                    
+                    //var filepath2 = @"PDFservices\Data\Label2-" + chassisNo + ".pdf";
+                    var filepath2 = @"PDFservices\Data\Label2-" + chassisNo + ".zpl";
+                    //var filepath2Full = Path.GetFullPath(filepath2);
+
                     // Export to PDF
-                    Export.Export.ExportToPDF(tLabel1, filepath1Full, LabelprinterName, tLabel1copies);      
-                    Export.Export.ExportToPDF(tLabel2, filepath2Full, LabelprinterName, tLabel2copies);
+                    //Export.Export.ExportToPDF(tLabel1, filepath1, LabelprinterName, tLabel1copies);      
+                    //Export.Export.ExportToPDF(tLabel2, filepath2, LabelprinterName, tLabel2copies);
+
+                    // Export to ZPL
+                    Export.Export.PrintZpl(tLabel1, filepath1, LabelprinterName, tLabel1copies); 
+                    Export.Export.PrintZpl(tLabel1, filepath2, LabelprinterName, tLabel2copies); 
 
                     c++;
 

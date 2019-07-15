@@ -143,7 +143,10 @@ namespace FontaineVerificationProject.Controllers
                 
                 return Ok(data);
             }
+            else
+            {
                 return BadRequest("Chassis number does not exist in the verification table");
             }
     }   
+        }
 }

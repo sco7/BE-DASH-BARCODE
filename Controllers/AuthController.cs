@@ -7,10 +7,12 @@ using AutoMapper;
 using FontaineVerificationProject.Dtos;
 using FontaineVerificationProject.Models;
 using FontaineVerificationProject.Repositories;
+using FontaineVerificationProjectBack.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-
+using Newtonsoft.Json;
 
 namespace FontaineVerificationProject.Controllers
 {
@@ -21,9 +23,21 @@ namespace FontaineVerificationProject.Controllers
         private readonly IAuthRepository _repo;
         private readonly IConfiguration _config;
         private readonly IMapper _mapper;
+        private readonly JwtIssuerOptions JwtIssuerOptions;
+        private readonly JsonSerializerSettings JsonSerializerSettings;
 
-        public AuthController(IAuthRepository repo, IConfiguration config, IMapper mapper)
+        public AuthController(IAuthRepository repo, IConfiguration config, IMapper mapper, IOptions<JwtIssuerOptions> jwtOptions)
         {
+            //jwtOptions.Value.NotNull("JwtIssuerOptions");
+            //jwtOptions.Value.SigningCredentials.NotNull("JwtIssuerOptions.SigningCredentials");
+            //jwtOptions.Value.JtiGenerator.NotNull("JwtIssuerOptions.JtiGenerator");
+            //jwtOptions.Value.ValidFor.NotZeroTimeRange("JwtIssuerOptions.Validfor");
+            JwtIssuerOptions = jwtOptions.Value;
+            JsonSerializerSettings = new JsonSerializerSettings
+            {
+                Formatting = Formatting.Indented,
+                DateTimeZoneHandling = DateTimeZoneHandling.Local
+            };
             _mapper = mapper;
             _config = config;
             _repo = repo;
@@ -54,14 +68,14 @@ namespace FontaineVerificationProject.Controllers
                 new Claim(ClaimTypes.Name, userFromRepo.UserName)
             };
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8
-                .GetBytes(_config.GetSection("AppSettings:Token").Value));
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
+                Issuer = JwtIssuerOptions.Issuer,
+                Audience = JwtIssuerOptions.Audience,
                 Subject = new ClaimsIdentity(claims),
                 Expires = DateTime.Now.AddDays(30),
-                SigningCredentials = creds
+                SigningCredentials = JwtIssuerOptions.SigningCredentials,
+                NotBefore = JwtIssuerOptions.NotBefore,
             };
 
             var tokenHandler = new JwtSecurityTokenHandler();
