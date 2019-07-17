@@ -10,34 +10,41 @@ namespace FontaineVerificationProject.PrintingService
 {
     public class PDFPrinting
     {
-        public static void PDFToPrinter(string filePath, string printerName, int copies)
+        public async static void PDFToPrinter(string filePath, string printerName)
         {
             filePath = filePath.Replace('\\', '/');
-            while (copies > 0)
+
+            string fullFilePath = Path.GetFullPath(filePath);
+
+            fullFilePath = fullFilePath.Replace("\\", "\\\\");
+
+            Console.WriteLine($"FoxitReader.exe /t {fullFilePath} \"{printerName}\"");
+
+            using (var process = new Process
             {
-                // Thread.Sleep(2000);
+                StartInfo = {
+                    FileName = "FoxitReader.exe",
+                    Arguments = $"/t \"{fullFilePath}\" \"{printerName}\"",
+                    UseShellExecute = false,
+                    WindowStyle = ProcessWindowStyle.Hidden
+                },
+                EnableRaisingEvents = true
+            })
+            {
 
-                Console.WriteLine($"PDFtoPrinter.exe {filePath} \"{printerName}\"");
-
-                var p = Process.Start(new ProcessStartInfo
-                {
-                    FileName = "PDFtoPrinter.exe",
-                    Arguments = $"{filePath} \"{printerName}\"",
-                    CreateNoWindow = true,
-                    UseShellExecute = false
-                });
-
-                p.ErrorDataReceived += (s, e) =>
+                process.ErrorDataReceived += (s, e) =>
                 {
                     Console.WriteLine("Error, " + e.Data);
                 };
 
-                p.Exited += (s, e) =>
+                process.Exited += (s, e) =>
                 {
                     Console.WriteLine("Ended, " + e.GetType().Name);
                 };
 
-                copies--;
+                process.Start();
+
+
             }
         }
 
