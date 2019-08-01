@@ -20,8 +20,8 @@
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
     <PackageReference Include="Microsoft.NETCore.Platforms" Version="2.2.1" />
-    <PackageReference Include="Neodynamic.SDK.ThermalLabel" Version="8.0.19.401" />
-    <PackageReference Include="Neodynamic.SDK.ThermalLabel.WindowsPrinting" Version="8.0.18.427" />
+    <PackageReference Include="Neodynamic.SDK.ThermalLabel" Version="9.0.19.718" />
+    <PackageReference Include="Neodynamic.SDK.ThermalLabel.WindowsPrinting" Version="9.0.0" />
     <PackageReference Include="NETStandard.Library" Version="2.0.3" />
     <PackageReference Include="PDFsharp" Version="1.50.5147" />
     <PackageReference Include="SkiaSharp" Version="1.68.0" />

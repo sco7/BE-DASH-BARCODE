@@ -6,13 +6,19 @@ using FontaineVerificationProject.Labels;
 using System.IO;
 using System.Linq;
 using FontaineVerificationProjectBack.PDFservices;
+using FontaineVerificationProjectBack.Models;
+using AutoMapper.Configuration;
+using System.Threading.Tasks;
 
 namespace FontaineVerificationProject.Helpers
 {
     public class PrintLabels
     {
-        public void PrintDespatchLabels(List<vGetChassisNumbers> data) {
 
+        public async Task PrintDespatchLabels(List<vGetChassisNumbers> data, PrintingConfig _printing)
+        {
+
+           
             // Delete existing labels files
             DirectoryInfo di = new DirectoryInfo(@"PDFservices\Data\");
             //foreach (FileInfo file in di.GetFiles())
@@ -25,7 +31,8 @@ namespace FontaineVerificationProject.Helpers
             List<string> pdfPagesLabel1 = new List<string>();
             List<string> pdfPagesLabel2 = new List<string>();
 
-            string LabelprinterName = "SatoZpl";  //"SATO WS408";  // "Brother HL-5240 series"
+
+            string LabelprinterName = _printing.LabelPrinterName; //"SATO WS408"; 
             string mergedLabels1 = "";
             string mergedLabels2 = "";
             bool usePdf = true;
@@ -33,20 +40,24 @@ namespace FontaineVerificationProject.Helpers
             foreach (var i in sortedData) 
             {
                 int tLabel1copies = 2;
-                int tLabel2copies = 1;
+                int tLabel2copies = 2;
                 string customerProductNo = i.MCusSupStkCode; 
                 string stockDescription = i.MStockDes;
                 string chassisNo = i.ChassisNumber;
                 string stockCode = i.MStockCode;
-                DateTime despatchDate = i.MLineShipDate; 
-                                    
+                DateTime despatchDate = i.MLineShipDate;
+
                 ThermalLabel tLabel1 = new V1Label(customerProductNo, stockDescription, chassisNo, despatchDate);                
-                ThermalLabel tLabel2 = new V2Label(stockCode, chassisNo);
-               
+                ThermalLabel tLabel2 = new V2Label(stockCode, customerProductNo);
+
+                var dir = Path.Combine("PDFservices", "Data");
+
+                if (!Directory.Exists(dir)) Directory.CreateDirectory(dir);
+
                 if (usePdf)
                 {
-                    var filepath1 = @"PDFservices\Data\Label1-" + chassisNo + ".pdf";
-                    var filepath2 = @"PDFservices\Data\Label2-" + chassisNo + ".pdf";
+                    var filepath1 = Path.Combine(dir, Guid.NewGuid() + ".pdf");
+                    var filepath2 = Path.Combine(dir, Guid.NewGuid() + ".pdf");
 
                     while (tLabel1copies > 0)
                     {
@@ -62,30 +73,34 @@ namespace FontaineVerificationProject.Helpers
                 }
                 else
                 {
-                    var filepath2 = @"PDFservices\Data\Label2-" + chassisNo + ".zpl";
-                    var filepath1 = @"PDFservices\Data\Label1-" + chassisNo + ".zpl";
+                    var filepath1 = Path.Combine(dir, Guid.NewGuid() + ".pdf");
+                    var filepath2 = Path.Combine(dir, Guid.NewGuid() + ".pdf");
 
-                    Export.Export.PrintZpl(tLabel1, filepath1, LabelprinterName, tLabel1copies);
+                Export.Export.PrintZpl(tLabel1, filepath1, LabelprinterName, tLabel1copies);
                     Export.Export.PrintZpl(tLabel2, filepath2, LabelprinterName, tLabel2copies);
                 }
               
 
                 c++;                    
             }
+            String[] pdfLabelArr1 = pdfPagesLabel1.ToArray();
+            String[] pdfLabelArr2 = pdfPagesLabel2.ToArray();
 
             if (usePdf)
             {
-                String[] pdfLabelArr1 = pdfPagesLabel1.ToArray();
-                String[] pdfLabelArr2 = pdfPagesLabel2.ToArray();
+                mergedLabels1 = PDFSharp.MergeMultiplePDFIntoSinglePDF(pdfLabelArr1, Guid.NewGuid().ToString());
+                mergedLabels2 = PDFSharp.MergeMultiplePDFIntoSinglePDF(pdfLabelArr2, Guid.NewGuid().ToString());
 
-                mergedLabels1 = PDFSharp.MergeMultiplePDFIntoSinglePDF(pdfLabelArr1, "Label1");
-                mergedLabels2 = PDFSharp.MergeMultiplePDFIntoSinglePDF(pdfLabelArr2, "Label2");
-
-                PrintingService.PDFPrinting.PDFToPrinter(mergedLabels1, LabelprinterName);
-                PrintingService.PDFPrinting.PDFToPrinter(mergedLabels2, LabelprinterName);
-
+                await PrintingService.PDFPrinting.PDFToPrinter(mergedLabels1, LabelprinterName);
+                await PrintingService.PDFPrinting.PDFToPrinter(mergedLabels2, LabelprinterName);
             }
 
+            File.Delete(mergedLabels1);
+            File.Delete(mergedLabels2);
+            foreach (var f in pdfPagesLabel1) File.Delete(f);
+            foreach (var f in pdfPagesLabel2) File.Delete(f);
+            foreach (var f in pdfLabelArr1) File.Delete(f);
+            foreach (var f in pdfLabelArr2) File.Delete(f);
         }
     }
 }

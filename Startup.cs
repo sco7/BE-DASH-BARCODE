@@ -15,6 +15,7 @@ using FontaineVerificationProjectBack.Models;
 using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
+using Neodynamic.SDK.Printing;
 
 namespace FontaineVerificationProject
 {
@@ -36,11 +37,15 @@ namespace FontaineVerificationProject
             services.AddDbContext<FontaineContext>(options => options.UseSqlServer(Configuration.GetConnectionString("SQLConnection")));
             services.Configure<JwtIssuerOptions>(options => Configuration.GetSection("JwtIssuerOptions").Bind(options));
             services.Configure<KestrelConfiguration>(options => Configuration.GetSection("KestrelOptions").Bind(options));
+            services.Configure<PrintingConfig>(options => Configuration.GetSection("Printing").Bind(options));
 
             var sp = services.BuildServiceProvider();
 
             KestrelConfiguration kestrelConfig = sp.GetService<IOptions<KestrelConfiguration>>().Value;
             JwtIssuerOptions jwtAppSettingOptions = sp.GetService<IOptions<JwtIssuerOptions>>().Value;
+
+            ThermalLabel.LicenseKey = "TC6KYFLVC9VUP72M43LMGHGW592EP2W3Q8FF2BRMM3X9JFZHHYXQ";
+            ThermalLabel.LicenseOwner = "Dash Computer Products-Ultimate Edition-OEM Developer License";
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options => {

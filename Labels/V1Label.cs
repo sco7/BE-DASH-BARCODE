@@ -5,6 +5,7 @@ namespace FontaineVerificationProject.Labels
 {
     public class V1Label : ThermalLabel
     {
+       
         public V1Label(string customerProductNo, string description, string chassisNo, DateTime dispatchDate) : base(UnitType.Inch, 4.00, 1.50)
         {          
             var customerProductNoValue = new TextItem(0.25, 0.20, 2.5, 0.5, customerProductNo.ToString());
@@ -12,8 +13,8 @@ namespace FontaineVerificationProject.Labels
             customerProductNoValue.Font.Size = 17;
 
             var descriptionValue = new TextItem(0.25, 0.65, 2.4, 0.5, description);
-            descriptionValue.Font.Name = Font.NativePrinterFontB;
-            descriptionValue.Font.Size = 10;
+            descriptionValue.Font.Name = Font.NativePrinterFontA;
+            descriptionValue.Font.Size = 12;
 
             var chassisNoValue = new TextItem(0.25, 1.10, 2.5, 0.5, chassisNo.ToString());
             chassisNoValue.Font.Name = Font.NativePrinterFontB;

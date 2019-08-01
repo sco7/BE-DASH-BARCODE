@@ -8,20 +8,26 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using FontaineVerificationProject.Helpers;
 using System.Globalization;
-
+using FontaineVerificationProjectBack.Models;
+using Microsoft.Extensions.Options;
 
 namespace FontaineVerificationProject.Controllers
 {
+
+    
+
     //[Route("api/[controller]")]
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class SaleController : ControllerBase
     {
+        private readonly PrintingConfig _printing;
         private readonly FontaineContext _context;
-        public SaleController(FontaineContext context)
+        public SaleController(FontaineContext context, IOptions<PrintingConfig> printing)
         {
             _context = context;
+            _printing = printing.Value;
         }
 
         // GET: api/sale
@@ -116,7 +122,7 @@ namespace FontaineVerificationProject.Controllers
 
             // Print Labels
             var printLabels = new PrintLabels();
-            printLabels.PrintDespatchLabels(data2);
+            await printLabels.PrintDespatchLabels(data2, _printing);
 
             if (duplicates)
             {
@@ -139,7 +145,7 @@ namespace FontaineVerificationProject.Controllers
             if ( _context.Verification.Any(x => x.ChassisNo == chassisNo))
             {
                 var data = await _context.vGetChassisNumbers.Where(x => x.ChassisNumber == chassisNo).Distinct().ToListAsync();
-                printLabels.PrintDespatchLabels(data);
+                await printLabels.PrintDespatchLabels(data, _printing);
                 
                 return Ok(data);
             }
