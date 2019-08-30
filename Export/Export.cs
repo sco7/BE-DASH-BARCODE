@@ -1,14 +1,11 @@
 using System;
-using System.Diagnostics;
-using System.Threading.Tasks;
 using FontaineVerificationProject.PrintingService;
 using Neodynamic.SDK.Printing;
 
 namespace FontaineVerificationProject.Export
 {
-    public class Export
+  public class Export
     {
-
         public static String ExportToPDF(ThermalLabel tLabel, string filePath)
         {                
             using (PrintJob pj = new PrintJob())
@@ -45,6 +42,5 @@ namespace FontaineVerificationProject.Export
                 copies--;
             }
         }
-
     }
 }

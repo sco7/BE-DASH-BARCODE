@@ -1,14 +1,11 @@
 ﻿using PdfSharp.Pdf;
 using PdfSharp.Pdf.IO;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace FontaineVerificationProjectBack.PDFservices
 {
-    public class PDFSharp
+  public class PDFSharp
     {
         public static string MergeMultiplePDFIntoSinglePDF(string[] pdfFiles, string label)
         {

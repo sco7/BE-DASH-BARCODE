@@ -7,30 +7,20 @@ using System.IO;
 using System.Linq;
 using FontaineVerificationProjectBack.PDFservices;
 using FontaineVerificationProjectBack.Models;
-using AutoMapper.Configuration;
 using System.Threading.Tasks;
 
 namespace FontaineVerificationProject.Helpers
 {
     public class PrintLabels
     {
-
         public async Task PrintDespatchLabels(List<vGetChassisNumbers> data, PrintingConfig _printing)
-        {
-
-           
-            // Delete existing labels files
+        {  
             DirectoryInfo di = new DirectoryInfo(@"PDFservices\Data\");
-            //foreach (FileInfo file in di.GetFiles())
-            //{
-            //    file.Delete(); 
-            //}
             
             int c = 0;
             List<vGetChassisNumbers> sortedData = data.OrderBy(x => x.ChassisNumber).ToList();
             List<string> pdfPagesLabel1 = new List<string>();
             List<string> pdfPagesLabel2 = new List<string>();
-
 
             string LabelprinterName = _printing.LabelPrinterName; //"SATO WS408"; 
             string mergedLabels1 = "";
@@ -79,8 +69,6 @@ namespace FontaineVerificationProject.Helpers
                 Export.Export.PrintZpl(tLabel1, filepath1, LabelprinterName, tLabel1copies);
                     Export.Export.PrintZpl(tLabel2, filepath2, LabelprinterName, tLabel2copies);
                 }
-              
-
                 c++;                    
             }
             String[] pdfLabelArr1 = pdfPagesLabel1.ToArray();

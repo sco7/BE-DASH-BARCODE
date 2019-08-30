@@ -1,13 +1,10 @@
 ﻿using FontaineVerificationProject.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace FontaineVerificationProject.Repositories
 {
-    public class AuthRepository: IAuthRepository
+  public class AuthRepository: IAuthRepository
     {
         private readonly FontaineContext _context;
 

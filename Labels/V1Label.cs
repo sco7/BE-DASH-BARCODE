@@ -5,7 +5,6 @@ namespace FontaineVerificationProject.Labels
 {
     public class V1Label : ThermalLabel
     {
-       
         public V1Label(string customerProductNo, string description, string chassisNo, DateTime dispatchDate) : base(UnitType.Inch, 4.00, 1.50)
         {          
             var customerProductNoValue = new TextItem(0.25, 0.20, 2.5, 0.5, customerProductNo.ToString());

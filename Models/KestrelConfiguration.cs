@@ -1,8 +1,6 @@
 ﻿namespace FontaineVerificationProjectBack.Models
 {
-    using System;
-
-    public class KestrelConfiguration
+  public class KestrelConfiguration
     {
         public int Port { get; set; }
         public SslSettings SslSettings { get; set; }

@@ -14,8 +14,6 @@ using Microsoft.Extensions.Options;
 namespace FontaineVerificationProject.Controllers
 {
 
-    
-
     //[Route("api/[controller]")]
     [Authorize]
     [Route("api/[controller]")]
@@ -109,7 +107,6 @@ namespace FontaineVerificationProject.Controllers
                 }
             }
 
-
             if (data2.Count == 0) return NotFound("Only duplicate chassis numbers found! No data has been added to the verification table.");           
 
             // Add chassis no's to the verification table
@@ -153,6 +150,6 @@ namespace FontaineVerificationProject.Controllers
             {
                 return BadRequest("Chassis number does not exist in the verification table");
             }
-    }   
-        }
+        }   
+    }
 }

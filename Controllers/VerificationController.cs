@@ -167,7 +167,6 @@ namespace FontaineVerificationProject.Controllers
             
             if (verification.V2UserName == null) return BadRequest("Username should not be null");    
             
-
             data.V2Passed = verification.V2Passed;
             data.V2UserName = verification.V2UserName;
             data.V2DateTime = DateTime.Now;
